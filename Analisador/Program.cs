@@ -10,21 +10,35 @@ namespace Analisador
     {
         static void Main(string[] args)
         {
+            bool continua = true;
+
             //Carregar resultados do arquivo texto para analise.
             Console.Write("Informe o caminho do arquivo para a importação dos resultados: ");
             string path = Console.ReadLine();
             var resultados = Preencher.CarregarResultados(path);
 
-            Console.Write("Informe quantos concursos deseja analisar: ");
-            int nConcAnalise = int.Parse(Console.ReadLine());
-
+            int nConcAnalise = 0;
+            while (continua)
+            {
+                Console.Write("Informe quantos concursos deseja analisar: ");
+                nConcAnalise = int.Parse(Console.ReadLine());
+                if (nConcAnalise > resultados.Count())
+                {
+                    Console.WriteLine("Valor informado é invalido, a qtde de concursos tem que ser menor ou igual a de resultados importados (" + resultados.Count() + ")");
+                }
+                else
+                {
+                    continua = false;
+                }
+            }
+            
             List<Combinacao> listaCombinacoes = new List<Combinacao>();
             int pFrequencia = -1;
 
             Console.WriteLine();
             Console.WriteLine("Analise Combinatório Simples");
             Console.Write("Deseja gerar um único conjuto de elementos Exp.: 1,5,7,15,24 ? [S/N]: ");
-            string vSNConjunto = Console.ReadLine();
+            string vSNConjunto = Console.ReadLine().ToUpper();
 
             if (vSNConjunto.ToUpper() == "S")
             {
