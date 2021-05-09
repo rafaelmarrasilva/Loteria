@@ -17,20 +17,18 @@ namespace Analisador.Entities
             int totalResImportado = 0;
             List<Resultado> resultados = new List<Resultado>();
 
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             try
             {
                 using (StreamReader sr = File.OpenText(path))
                 {
-                    Console.WriteLine("Resultados não importados:");
+                    GravarArquivo(targetPath, "Resultados não importados:");
                     while (!sr.EndOfStream)
                     {
                         string[] s = sr.ReadLine().Split(',');
                         if (s.Length == 17)
                         {
                             List<int> l = new List<int>();
-
                             int i = 0;
                             foreach (var item in s)
                             {
@@ -46,33 +44,36 @@ namespace Analisador.Entities
                         else
                         {
                             totalResNaoImportado++;
+                            string naoImp = null;
                             foreach (var item in s)
                             {
-                                Console.Write(item + ",");
+                                naoImp += item + ","; //ajustar isso para gravar no arquivo GravarArquivo(targetPath, 
                             }
-                            Console.WriteLine();
+                            GravarArquivo(targetPath, naoImp);
                         }
                     }
                 }
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine("Total de Erros na importação: " + totalResNaoImportado);
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine("Total de Sucessos na importção: " + totalResImportado);
-                Console.WriteLine("------------------------------------");
+                GravarArquivo(targetPath, "------------------------------------");
+                GravarArquivo(targetPath, "Total de Erros na importação: " + totalResNaoImportado);
+                GravarArquivo(targetPath, "------------------------------------");
+                GravarArquivo(targetPath, "Total de Sucessos na importção: " + totalResImportado);
+                GravarArquivo(targetPath, "------------------------------------");
 
                 //Listar os resultados importados.
-                Console.WriteLine("Últimos três resultados importados.");
+                GravarArquivo(targetPath, "Últimos três resultados importados.");
                 foreach (var item in resultados.Where(p => p.Concurso > resultados.Max(x => x.Concurso) - 3))
                 {
-                    Console.WriteLine(item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy"));
+                    GravarArquivo(targetPath, item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy"));
                 }
 
-                Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-                Console.WriteLine();
+                GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+                GravarArquivo(targetPath, " ");
             }
             catch (IOException e)
             {
                 Console.WriteLine(e.Message);
+                File.Delete(targetPath);
+                Environment.Exit(0);
             }
             return resultados;
         }
@@ -105,9 +106,10 @@ namespace Analisador.Entities
                 }
                 resultLista.Add(new Combinacao(arrayItem, listaTemp));
             }
-            Console.WriteLine("-----------------------------------------------");
-            Console.WriteLine("Total de Combinações geradas " + resultLista.Count);
-            Console.WriteLine("-----------------------------------------------");
+            GravarArquivo(targetPath, "-----------------------------------------------");
+            GravarArquivo(targetPath, "Total de Combinações geradas: " + resultLista.Count);
+            GravarArquivo(targetPath, "-----------------------------------------------");
+            GravarArquivo(targetPath, " ");
             return resultLista;
         }
 
@@ -143,14 +145,14 @@ namespace Analisador.Entities
                     }
                 }
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
 
             //Impressao do resumo ComparaCombinacoesResultados
-            Console.WriteLine("Resumo das Combinações e a frequência que elas se repetem");
-            Console.WriteLine("Maior frequência: " + listComb.Max(m => m.QtdRepeticoes));
-            Console.WriteLine("Menor frequência: " + listComb.Min(m => m.QtdRepeticoes));
-            Console.WriteLine("------------------------------------------");
-            Console.WriteLine("Total de frequência vs Qtde de Combinações");
+            GravarArquivo(targetPath, "Resumo das Combinações e a frequência que elas se repetem");
+            GravarArquivo(targetPath, "Maior frequência: " + listComb.Max(m => m.QtdRepeticoes));
+            GravarArquivo(targetPath, "Menor frequência: " + listComb.Min(m => m.QtdRepeticoes));
+            GravarArquivo(targetPath, "------------------------------------------");
+            GravarArquivo(targetPath, "Total de frequência vs Qtde de Combinações");
             Dictionary<string, int> listSort = new Dictionary<string, int>();
             for (int i = 0; i < listComb.Max(m => m.QtdRepeticoes)+1; i++)
             {
@@ -161,17 +163,18 @@ namespace Analisador.Entities
             }
             foreach (KeyValuePair<string,int> item in listSort.OrderByDescending(s => s.Key))
             {
-                Console.WriteLine(item.Key + " - " + item.Value);
+                GravarArquivo(targetPath, item.Key + " - " + item.Value);
             }
 
             //Impressao do analitico de acordo com os parametros selecionados para comparar as combinações.
-            Console.WriteLine("--------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a "+ pFrequencia);
+            GravarArquivo(targetPath, "--------------------------------------------------------------------------------------------------------------");
+            GravarArquivo(targetPath, "Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a "+ pFrequencia);
             foreach (Combinacao item in listComb.Where(p => p.QtdRepeticoes >= pFrequencia).OrderBy(p => p.QtdRepeticoes))
             {
-                Console.WriteLine(item.IdCombinacao + " - " + item.QtdRepeticoes);
+                GravarArquivo(targetPath, item.IdCombinacao + " - " + item.QtdRepeticoes);
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+            GravarArquivo(targetPath, " ");
         }
 
 
@@ -202,19 +205,13 @@ namespace Analisador.Entities
             GravarArquivo(targetPath, "Qtde de números pares apresentados nos resultados");
             GravarArquivo(targetPath, "Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
 
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine("Qtde de números pares apresentados nos resultados");
-            Console.WriteLine("Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
             foreach (KeyValuePair<int, int> item in result.OrderByDescending(s => s.Value))
             {
                 GravarArquivo(targetPath, "Número Par: " + item.Key + " com Resultados: " + item.Value);
-                Console.WriteLine("Número Par: {0} com Resultados: {1}", item.Key, item.Value);
             }
             
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, " ");
         }
 
 
@@ -267,27 +264,27 @@ namespace Analisador.Entities
                 }
             }
 
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine("Qtde de números sorteados em cada linha do volante (Qtde vezes)");
-            Console.WriteLine("Exibe os três mais dos cinco possiveis. Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Qtde de números sorteados em cada linha do volante (Qtde vezes)");
+            GravarArquivo(targetPath, "Exibe os três mais dos cinco possiveis. Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
             int j = 1;
             while (j <= 5)
             {
                 int x = 1;
                 foreach (KeyValuePair<string, int> item in dicQL.Where(p => p.Key.Contains("QL" + j)).OrderByDescending(s => s.Value))
                 {
-                    Console.WriteLine(item.Key + " - " + item.Value);
+                    GravarArquivo(targetPath, item.Key + " - " + item.Value);
                     x++;
                     if (x > 3)
                     {
                         break;
                     }
                 }
-                Console.WriteLine("------------");
+                GravarArquivo(targetPath, "------------");
                 j++;
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
         }
 
         public static void QuadrantesColuna(List<Resultado> resultados, int qtdConcurso)
@@ -349,32 +346,32 @@ namespace Analisador.Entities
                 }
             }
 
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine("Qtde de números sorteados em cada coluna do volante (Qtde vezes)");
-            Console.WriteLine("Exibe os três mais dos cinco possiveis. Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Qtde de números sorteados em cada coluna do volante (Qtde vezes)");
+            GravarArquivo(targetPath, "Exibe os três mais dos cinco possiveis. Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
             int y = 1;
             while (y <= 5)
             {
                 int x = 1;
                 foreach (KeyValuePair<string, int> item in dicQC.Where(p => p.Key.Contains("QC" + y)).OrderByDescending(s => s.Value))
                 {
-                    Console.WriteLine(item.Key + " - " + item.Value);
+                    GravarArquivo(targetPath, item.Key + " - " + item.Value);
                     x++;
                     if (x > 3)
                     {
                         break;
                     }
                 }
-                Console.WriteLine("------------");
+                GravarArquivo(targetPath, "------------");
                 y++;
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
         }
 
         public static void CincoMaisDosUltDoze(List<Resultado> resultados)
         {
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             Dictionary<int, int> dicCincoMais = new Dictionary<int, int>();
             int contador = 5;
 
@@ -397,11 +394,11 @@ namespace Analisador.Entities
                         }
                     }
                     //Impressão
-                    Console.WriteLine("Números que mais foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
+                    GravarArquivo(targetPath, "Números que mais foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
                     int j = 1;
                     foreach (KeyValuePair<int, int> item in dicCincoMais.OrderByDescending(s => s.Value))
                     {
-                        Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
+                        GravarArquivo(targetPath, item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
                         j++;
                         if (j > 5)
                         {
@@ -411,23 +408,23 @@ namespace Analisador.Entities
                 }
                 else
                 {
-                    Console.WriteLine("Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
+                    GravarArquivo(targetPath, "Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
                 }
 
                 dicCincoMais.Clear();
                 contador += 3;
                 if (i != 2)
                 {
-                    Console.WriteLine("-----------------------------------------------------------");
+                    GravarArquivo(targetPath, "-----------------------------------------------------------");
                 }
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
         }
 
         public static void CincoMenosDosUltDoze(List<Resultado> resultados)
         {
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
 
             Dictionary<int, int> dicCincoMenos = new Dictionary<int, int>();
             int contador = 5;
@@ -454,11 +451,11 @@ namespace Analisador.Entities
                         }
                     }
                     //Impressão
-                    Console.WriteLine("Números que menos foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
+                    GravarArquivo(targetPath, "Números que menos foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
                     int j = 1;
                     foreach (KeyValuePair<int, int> item in dicCincoMenos.OrderBy(s => s.Value))
                     {
-                        Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
+                        GravarArquivo(targetPath, item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
                         j++;
                         if (j > 5)
                         {
@@ -468,17 +465,17 @@ namespace Analisador.Entities
                 }
                 else
                 {
-                    Console.WriteLine("Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
+                    GravarArquivo(targetPath, "Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
                 }
                 dicCincoMenos.Clear();
                 contador += 3;
                 if (i != 2)
                 {
-                    Console.WriteLine("-----------------------------------------------------------");
+                    GravarArquivo(targetPath, "-----------------------------------------------------------");
                 }
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
         }
 
         public static void SomaDezenas(List<Resultado> resultados, int qtdConcurso)
@@ -529,18 +526,17 @@ namespace Analisador.Entities
                 }
             }
 
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine("Soma das dezenas (Qtde vezes)");
-            Console.WriteLine("Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Soma das dezenas (Qtde vezes)");
+            GravarArquivo(targetPath, "Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
 
             foreach (KeyValuePair<string, int> item in somaDezenas.OrderByDescending(s => s.Value))
             {
-                Console.WriteLine("{0} - {1}", item.Key, item.Value);
+                GravarArquivo(targetPath, item.Key + " - " + item.Value);
             }
-            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
-            Console.WriteLine();
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
         }
-
         public static void GravarArquivo(string caminho, string msg)
         {
             try
@@ -553,6 +549,7 @@ namespace Analisador.Entities
             catch (IOException e)
             {
                 Console.WriteLine(e.Message);
+                Environment.Exit(0);
             }
         }
 
