@@ -10,6 +10,8 @@ namespace Analisador
     {
         static void Main(string[] args)
         {
+            Preencher.targetPath = "Analise_" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".txt";
+
             bool continua = true;
 
             //Carregar resultados do arquivo texto para analise.
