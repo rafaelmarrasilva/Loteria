@@ -93,11 +93,11 @@ namespace Analisador.Entities
                     listaTemp.Add(int.Parse(s));
                     if (i == k - 1)
                     {
-                        arrayItem = arrayItem + s.ToString();
+                        arrayItem = arrayItem + s.ToString().PadLeft(2,'0');
                     }
                     else
                     {
-                        arrayItem = arrayItem + s.ToString() + ",";
+                        arrayItem = arrayItem + s.ToString().PadLeft(2, '0') + ",";
                     }
                     i++;
                 }
@@ -127,8 +127,6 @@ namespace Analisador.Entities
 
         public static void ComparaCombinacoesResultados(List<Combinacao> listComb, int pFrequencia, List<Resultado> resultados, int qtdConcurso)
         {
-            Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            Console.WriteLine("Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados");
             foreach (Combinacao combinacao in listComb)
             {
                 var lCombina = new HashSet<int>(combinacao.SeqCombinada);
@@ -143,11 +141,35 @@ namespace Analisador.Entities
                     }
                 }
             }
+            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+
+            //Impressao do resumo ComparaCombinacoesResultados
+            Console.WriteLine("Resumo das Combinações e a frequência que elas se repetem");
+            Console.WriteLine("Maior frequência: " + listComb.Max(m => m.QtdRepeticoes));
+            Console.WriteLine("Menor frequência: " + listComb.Min(m => m.QtdRepeticoes));
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("Total de frequência vs Qtde de Combinações");
+            Dictionary<string, int> listSort = new Dictionary<string, int>();
+            for (int i = 0; i < listComb.Max(m => m.QtdRepeticoes)+1; i++)
+            {
+                if (listComb.Where(w => w.QtdRepeticoes == i).Count() > 0)
+                {
+                    listSort.Add(i.ToString().PadLeft(listComb.Max(m => m.QtdRepeticoes).ToString().Length, '0'), listComb.Where(w => w.QtdRepeticoes == i).Count());
+                }
+            }
+            foreach (KeyValuePair<string,int> item in listSort.OrderByDescending(s => s.Key))
+            {
+                Console.WriteLine(item.Key + " - " + item.Value);
+            }
+
+            //Impressao do analitico de acordo com os parametros selecionados para comparar as combinações.
+            Console.WriteLine("--------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a "+ pFrequencia);
             foreach (Combinacao item in listComb.Where(p => p.QtdRepeticoes >= pFrequencia).OrderBy(p => p.QtdRepeticoes))
             {
                 Console.WriteLine(item.IdCombinacao + " - " + item.QtdRepeticoes);
             }
-            Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+            Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
         }
 
 
@@ -348,32 +370,40 @@ namespace Analisador.Entities
 
             for (int i = 0; i < 3; i++)
             {
-                foreach (Resultado resultado in resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador))
+                if (contador < resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count())
                 {
-                    foreach (var numero in resultado.Numeros)
+                    foreach (Resultado resultado in resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador))
                     {
-                        if (dicCincoMais.TryGetValue(numero, out int value))
+                        foreach (var numero in resultado.Numeros)
                         {
-                            dicCincoMais[numero] += 1;
+                            if (dicCincoMais.TryGetValue(numero, out int value))
+                            {
+                                dicCincoMais[numero] += 1;
+                            }
+                            else
+                            {
+                                dicCincoMais.Add(numero, 1);
+                            }
                         }
-                        else
+                    }
+                    //Impressão
+                    Console.WriteLine("Números que mais foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
+                    int j = 1;
+                    foreach (KeyValuePair<int, int> item in dicCincoMais.OrderByDescending(s => s.Value))
+                    {
+                        Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
+                        j++;
+                        if (j > 5)
                         {
-                            dicCincoMais.Add(numero, 1);
+                            break;
                         }
                     }
                 }
-                //Impressão
-                Console.WriteLine("Números que mais foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
-                int j = 1;
-                foreach (KeyValuePair<int, int> item in dicCincoMais.OrderByDescending(s => s.Value))
+                else
                 {
-                    Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
-                    j++;
-                    if (j > 5)
-                    {
-                        break;
-                    }
+                    Console.WriteLine("Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
                 }
+
                 dicCincoMais.Clear();
                 contador += 3;
                 if (i != 2)
@@ -395,33 +425,40 @@ namespace Analisador.Entities
 
             for (int i = 0; i < 3; i++)
             {
-                foreach (Resultado resultado in resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador))
+                if (contador < resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count())
                 {
-                    for (int y = 1; y <= 25; y++)
+                    foreach (Resultado resultado in resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador))
                     {
-                        recValue = resultado.Numeros.Contains(y) ? 1 : 0;
+                        for (int y = 1; y <= 25; y++)
+                        {
+                            recValue = resultado.Numeros.Contains(y) ? 1 : 0;
 
-                        if (dicCincoMenos.TryGetValue(y, out int value))
-                        {
-                            dicCincoMenos[y] += recValue;
+                            if (dicCincoMenos.TryGetValue(y, out int value))
+                            {
+                                dicCincoMenos[y] += recValue;
+                            }
+                            else
+                            {
+                                dicCincoMenos.Add(y, recValue);
+                            }
                         }
-                        else
+                    }
+                    //Impressão
+                    Console.WriteLine("Números que menos foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
+                    int j = 1;
+                    foreach (KeyValuePair<int, int> item in dicCincoMenos.OrderBy(s => s.Value))
+                    {
+                        Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
+                        j++;
+                        if (j > 5)
                         {
-                            dicCincoMenos.Add(y, recValue);
+                            break;
                         }
                     }
                 }
-                //Impressão
-                Console.WriteLine("Números que menos foram sorteados nos ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - contador).Count() + " concursos.");
-                int j = 1;
-                foreach (KeyValuePair<int, int> item in dicCincoMenos.OrderBy(s => s.Value))
+                else
                 {
-                    Console.WriteLine(item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
-                    j++;
-                    if (j > 5)
-                    {
-                        break;
-                    }
+                    Console.WriteLine("Não há dados suficientes para a analise de resultados (Últimos " + (contador + 1) + ").");
                 }
                 dicCincoMenos.Clear();
                 contador += 3;
