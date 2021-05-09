@@ -9,6 +9,8 @@ namespace Analisador.Entities
 {
     class Preencher
     {
+        public static string targetPath { get; internal set; }
+
         public static List<Resultado> CarregarResultados(string path)
         {
             int totalResNaoImportado = 0;
@@ -196,13 +198,21 @@ namespace Analisador.Entities
                     result.Add(key, 1);
                 }
             }
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Qtde de números pares apresentados nos resultados");
+            GravarArquivo(targetPath, "Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+
             Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             Console.WriteLine("Qtde de números pares apresentados nos resultados");
             Console.WriteLine("Analisados os ultimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
             foreach (KeyValuePair<int, int> item in result.OrderByDescending(s => s.Value))
             {
+                GravarArquivo(targetPath, "Número Par: " + item.Key + " com Resultados: " + item.Value);
                 Console.WriteLine("Número Par: {0} com Resultados: {1}", item.Key, item.Value);
             }
+            
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            
             Console.WriteLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             Console.WriteLine();
         }
@@ -531,6 +541,20 @@ namespace Analisador.Entities
             Console.WriteLine();
         }
 
+        public static void GravarArquivo(string caminho, string msg)
+        {
+            try
+            {
+                using (StreamWriter sw = File.AppendText(caminho))
+                {
+                    sw.WriteLine(msg);
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
 
     }
 }
