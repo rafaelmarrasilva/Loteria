@@ -10,15 +10,17 @@ namespace Analisador
     {
         static void Main(string[] args)
         {
-            Preencher.targetPath = "Analise_" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".txt";
-
-            bool continua = true;
+            //Caminho para salvar o arquivo.
+            Console.Write("Informe o caminho do arquivo para gravar o resultado da analise: ");
+            string diretorio = Console.ReadLine();
+            Preencher.targetPath = diretorio.EndsWith(@"\") ? diretorio + "Analise_" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".txt" : diretorio + @"\Analise_" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".txt";
 
             //Carregar resultados do arquivo texto para analise.
             Console.Write("Informe o caminho do arquivo para a importação dos resultados: ");
             string path = Console.ReadLine();
             var resultados = Preencher.CarregarResultados(path);
 
+            bool continua = true;
             int nConcAnalise = 0;
             while (continua)
             {
