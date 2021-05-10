@@ -6,35 +6,25 @@ using System.Threading.Tasks;
 
 namespace Loteria.Entities
 {
-    class Similaridade
+    public static class Similaridade
     {
-        public static void Similar(List<JogoGerado> pLista, int qtdSimilar)
+        public static bool Similar(List<int> lista, List<Jogo> pLista)
         {
-            //int tamLista = pLista.Count();
-            int i = 0;
-            int j = 0;
+            bool result = true;
             foreach (var p in pLista)
             {
-                var listaCom = new HashSet<int>(p.ListaNumeros);
+                var listaTemp = new HashSet<int>(lista);
+                var listaJogo = new HashSet<int>(p.ListaNumeros);
 
-                foreach (var s in pLista)
+                listaTemp.IntersectWith(listaJogo);
+
+                if (listaTemp.Count >= 14)
                 {
-                    if (i != j)
-                    {
-                        var listaSec = new HashSet<int>(s.ListaNumeros);
-
-                        listaSec.IntersectWith(listaCom);
-
-                        Console.WriteLine("Sequencial " + s.Sequencial + " é similar (" + listaSec.Count + ") ao Sequencial " + p.Sequencial);
-
-                        j++;
-                        listaSec.Clear();
-                    }
+                    result = false;
+                    break;
                 }
-                j = 0;
-                i++;
-                listaCom.Clear();
             }
+            return result;
         }
     }
 }
