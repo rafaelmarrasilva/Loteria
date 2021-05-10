@@ -8,10 +8,10 @@ namespace Loteria.Entities
 {
     public static class Regras
     {
-        public static int Pares(List<int> vs)
+        public static bool Pares(List<int> lista, List<int> parametros)
         {
             int i = 0;
-            foreach (var item in vs)
+            foreach (var item in lista)
             {
                 int resto = item % 2;
                 if (resto == 0)
@@ -19,37 +19,36 @@ namespace Loteria.Entities
                     i++;
                 }
             }
-            return i;
-            //Retornos bons 6, 7 ou 8
+            return parametros.Contains(i);
         }
 
-        public static bool ValidaQuadrantesLinha(List<int> vs)
+        public static bool QuadranteLinha(List<int> lista, List<string> parametros)
         {
-            bool continua = true;
-            bool result = true;
+            List<int> listaResult = new List<int>();
             int numIni = 1;
             int numFim = 5;
 
-            while (continua)
+            for (int i = 0; i < 5; i++)
             {
-                IEnumerable<int> Query = from num in vs where num >= numIni && num <= numFim select num;
-                if (Query.Count() > 1)
-                {
-                    numIni = numIni + 5;
-                    numFim = numFim + 5;
-                }
-                else
-                {
-                    continua = false;
-                    result = false;
-                }
-
-                if (numFim > 25)
-                {
-                    continua = false;
-                }
+                IEnumerable<int> Query = from num in lista where num >= numIni && num <= numFim select num;
+                listaResult.Add(Query.Count());
+                numIni += 5;
+                numFim += 5;
             }
-            return result;
+            int k = 0;
+            int contaQL = 0;
+            foreach (var item in parametros)
+            {
+                foreach (var s in item.Split(','))
+                {
+                    if (listaResult[k] == int.Parse(s))
+                    {
+                        contaQL++;
+                    }
+                }
+                k++;
+            }
+            return contaQL == 5 ? true : false;
             //01, 02, 03, 04, 05
             //06, 07, 08, 09, 10
             //11, 12, 13, 14, 15
@@ -57,50 +56,40 @@ namespace Loteria.Entities
             //21, 22, 23, 24, 25
         }
 
-        public static bool ValidaQuadrantesColuna(List<int> vs)
+        public static bool QuadrantesColuna(List<int> lista, List<string> parametros)
         {
-            bool continua = true;
-            bool result = true;
-            int pStart = 1;
-            int j = 1;
-
-            var listaJogo = new HashSet<int>(vs);
-
-            HashSet<int> lst = new HashSet<int>();
-
-            while (continua)
+            List<int> listaResult = new List<int>();
+            int numStart = 1;
+            int num = numStart;
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < 5; i++)
+                int contador = 0;
+                for (int j = 0; j < 5; j++)
                 {
-                    if (i == 0)
+                    if (lista.Contains(num))
                     {
-                        lst.Add(pStart);
+                        contador++;
                     }
-                    else
-                    {
-                        lst.Add(pStart);
-                    }
-                    pStart = pStart + 5;
+                    num += 5;
                 }
-
-                lst.IntersectWith(listaJogo);
-
-                if (lst.Count() <= 1)
-                {
-                    continua = false;
-                    result = false;
-                }
-
-                j++;
-                pStart = j;
-                lst.Clear();
-
-                if (pStart > 5)
-                {
-                    continua = false;
-                }
+                listaResult.Add(contador);
+                numStart++;
+                num = numStart;
             }
-            return result;
+            int k = 0;
+            int contaQC = 0;
+            foreach (var item in parametros)
+            {
+                foreach (var s in item.Split(','))
+                {
+                    if (listaResult[k] == int.Parse(s))
+                    {
+                        contaQC++;
+                    }
+                }
+                k++;
+            }
+            return contaQC == 5 ? true : false;
             //01, 06, 11, 16, 21
             //02, 07, 12, 17, 22
             //03, 08, 13, 18, 23
