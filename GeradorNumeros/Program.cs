@@ -9,38 +9,64 @@ namespace Loteria
     {
         static void Main(string[] args)
         {
+            Parametros parametros = new Parametros();
+
             Console.Write("Informe a qtde de jogos desejados: ");
             int qtdJogos = int.Parse(Console.ReadLine());
-            Console.WriteLine("-----------------------------------");
+            Console.WriteLine();
+            
+            Console.Write("Será utilizada alguma matriz [S/N]: ");
+            string utilizaMatriz = Console.ReadLine();
 
-            List<JogoGerado> listaJG = new List<JogoGerado>();
-
-            for (int i = 1; i <= qtdJogos; i++)
+            if (utilizaMatriz.ToUpper() == "S")
             {
-                listaJG.Add(new JogoGerado(i, DateTime.Now));
-            }
+                Console.Write("Informe os números (sep. virgula): ");
+                string numMatriz = Console.ReadLine();
 
-            Similaridade.Similar(listaJG,1);
-            Console.WriteLine("-----------------------------------");
-
-            /*impressão dos jogos gerados*/
-            foreach (var jogo in listaJG)
-            {
-                Console.Write(jogo.Sequencial + " - " + jogo.Data + " - ");
-                foreach (var num in jogo.ListaNumeros)
+                foreach (var item in numMatriz.Split(','))
                 {
-                    if (jogo.ListaNumeros[jogo.ListaNumeros.Count - 1] != num)
+                    parametros.addMatriz(int.Parse(item));
+                }
+            }
+            Console.WriteLine();
+
+            Console.Write("Informe quantos números pares o jogo deve ter (sep. virgula, caso sejá mais de um): ");
+            string numPares = Console.ReadLine();
+            foreach (var item in numPares.Split(','))
+            {
+                parametros.addPares(int.Parse(item));
+            }
+            Console.WriteLine();
+
+            List<string> listQL = new List<string>();
+            for (int i = 1; i < 6; i++)
+            {
+                Console.Write("Informe quantos números o jogo deve haver no quadrante linha "+ i + " (sep. virgula, caso sejá mais de um): ");
+                string preencherQL = Console.ReadLine();
+                parametros.addQuadLinha(preencherQL);
+            }
+            Console.WriteLine();
+
+            var jogosGerados = GerarJogo.GerarJogos(qtdJogos, parametros);
+
+            //inicio impressão dos jogos gerados
+            foreach (Jogo jogos in jogosGerados)
+            {
+                Console.Write(jogos.Sequencial + " - " + jogos.Data + " - ");
+                foreach (int num in jogos.ListaNumeros)
+                {
+                    if (jogos.ListaNumeros[jogos.ListaNumeros.Count - 1] != num)
                     {
-                        Console.Write(num.ToString() + ", ");
+                        Console.Write(num.ToString().PadLeft(2,'0') + ", ");
                     }
                     else
                     {
-                        Console.Write(num.ToString());
+                        Console.Write(num.ToString().PadLeft(2,'0'));
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("-----------------------------------");
             }
+            //fim da impressão dos jogos gerados
         }
     }
 }
