@@ -11,6 +11,8 @@ namespace Loteria.Entities
         public List<int> Matriz { get; set; } = new List<int>();
         public List<int> Pares { get; set; } = new List<int>();
         public List<string> QuadLinha { get; set; } = new List<string>();
+        public List<string> QuadColuna { get; set; } = new List<string>();
+        public List<int> SomaDezenas { get; set; } = new List<int>();
 
         public void addMatriz(int numMatriz)
         {
@@ -25,6 +27,16 @@ namespace Loteria.Entities
         public void addQuadLinha(string stgQuadLinha)
         {
             QuadLinha.Add(stgQuadLinha);
+        }
+
+        public void addQuadColuna(string stgQuadColuna)
+        {
+            QuadColuna.Add(stgQuadColuna);
+        }
+
+        public void addSomaDezenas(int numSoma)
+        {
+            SomaDezenas.Add(numSoma);
         }
 
     }
