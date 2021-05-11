@@ -485,11 +485,7 @@ namespace Analisador.Entities
 
             foreach (Resultado resultado in resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso))
             {
-                int soma = 0;
-                foreach (var item in resultado.Numeros)
-                {
-                    soma += item;
-                }
+                int soma = resultado.Numeros.Sum();
 
                 if (soma < 166)
                 {
