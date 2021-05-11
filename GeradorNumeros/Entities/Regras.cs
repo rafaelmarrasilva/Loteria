@@ -10,6 +10,10 @@ namespace Loteria.Entities
     {
         public static bool Pares(List<int> lista, List<int> parametros)
         {
+            if (parametros.Count() == 0)
+            {
+                return true;
+            }
             int i = 0;
             foreach (var item in lista)
             {
@@ -24,6 +28,10 @@ namespace Loteria.Entities
 
         public static bool QuadranteLinha(List<int> lista, List<string> parametros)
         {
+            if (parametros.Count() == 0)
+            {
+                return true;
+            }
             List<int> listaResult = new List<int>();
             int numIni = 1;
             int numFim = 5;
@@ -58,6 +66,10 @@ namespace Loteria.Entities
 
         public static bool QuadranteColuna(List<int> lista, List<string> parametros)
         {
+            if (parametros.Count() == 0)
+            {
+                return true;
+            }
             List<int> listaResult = new List<int>();
             int numStart = 1;
             int num = numStart;
@@ -99,6 +111,10 @@ namespace Loteria.Entities
 
         public static bool SomaDezenas(List<int> lista, List<int> parametros)
         {
+            if (parametros.Count() == 0)
+            {
+                return true;
+            }
             return lista.Sum() >= parametros[0] && lista.Sum() <= parametros[1] ? true : false;
         }
     }
