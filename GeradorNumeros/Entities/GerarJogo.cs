@@ -34,7 +34,12 @@ namespace Loteria.Entities
                 //Validar regra dos numeros pares
                 //Validar regra dos quadrante linha
                 //Só gerar o jogo se todos os parametros forem verdadeiros.
-                if (Regras.Pares(lista, parametros.Pares) && Regras.QuadranteLinha(lista, parametros.QuadLinha) && Similaridade.Similar(lista, jogos))
+                if (Regras.Pares(lista, parametros.Pares) && 
+                    Regras.QuadranteLinha(lista, parametros.QuadLinha) &&
+                    Regras.QuadranteColuna(lista, parametros.QuadColuna) &&
+                    Regras.SomaDezenas(lista, parametros.SomaDezenas) &&
+                    Similaridade.Similar(lista, jogos)
+                    )
                 {
                     lista.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, lista));
