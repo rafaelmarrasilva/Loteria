@@ -538,6 +538,7 @@ namespace Analisador.Entities
         {
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             GravarArquivo(targetPath, "Mapa de resultados - Analisados os últimos " + resultados.Where(w => w.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+            Dictionary<int, int> dicTotal = new Dictionary<int, int>();
             foreach (Resultado resultado in resultados.Where(w => w.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso))
             {
                 string result = resultado.Concurso.ToString().PadLeft(4,'0') + " - ";
@@ -548,6 +549,15 @@ namespace Analisador.Entities
                     {
                         foreach (var item in resultado.Numeros)
                         {
+                            if (dicTotal.TryGetValue(item, out int value))
+                            {
+                                dicTotal[item] += 1;
+                            }
+                            else
+                            {
+                                dicTotal.Add(item, 1);
+                            }
+
                             if (item == k)
                             {
                                 result += item.ToString().PadLeft(2, '0') + " - ";
@@ -576,6 +586,14 @@ namespace Analisador.Entities
                 }
                 GravarArquivo(targetPath, result);
             }
+
+            GravarArquivo(targetPath, "------------------------------------------------------------------------------");
+            GravarArquivo(targetPath, "Dezenas vs Frequência");
+            foreach (KeyValuePair<int,int> item in dicTotal.OrderByDescending(s => s.Value))
+            {
+                GravarArquivo(targetPath, item.Key.ToString().PadLeft(2,'0') + " - " + item.Value);
+            }
+
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             GravarArquivo(targetPath, " ");
         }
