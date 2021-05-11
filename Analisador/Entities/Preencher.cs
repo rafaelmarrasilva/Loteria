@@ -96,7 +96,7 @@ namespace Analisador.Entities
                     listaTemp.Add(int.Parse(s));
                     if (i == k - 1)
                     {
-                        arrayItem = arrayItem + s.ToString().PadLeft(2,'0');
+                        arrayItem = arrayItem + s.ToString().PadLeft(2, '0');
                     }
                     else
                     {
@@ -154,21 +154,21 @@ namespace Analisador.Entities
             GravarArquivo(targetPath, "------------------------------------------");
             GravarArquivo(targetPath, "Total de frequência vs Qtde de Combinações");
             Dictionary<string, int> listSort = new Dictionary<string, int>();
-            for (int i = 0; i < listComb.Max(m => m.QtdRepeticoes)+1; i++)
+            for (int i = 0; i < listComb.Max(m => m.QtdRepeticoes) + 1; i++)
             {
                 if (listComb.Where(w => w.QtdRepeticoes == i).Count() > 0)
                 {
                     listSort.Add(i.ToString().PadLeft(listComb.Max(m => m.QtdRepeticoes).ToString().Length, '0'), listComb.Where(w => w.QtdRepeticoes == i).Count());
                 }
             }
-            foreach (KeyValuePair<string,int> item in listSort.OrderByDescending(s => s.Key))
+            foreach (KeyValuePair<string, int> item in listSort.OrderByDescending(s => s.Key))
             {
                 GravarArquivo(targetPath, item.Key + " - " + item.Value);
             }
 
             //Impressao do analitico de acordo com os parametros selecionados para comparar as combinações.
             GravarArquivo(targetPath, "--------------------------------------------------------------------------------------------------------------");
-            GravarArquivo(targetPath, "Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a "+ pFrequencia);
+            GravarArquivo(targetPath, "Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a " + pFrequencia);
             foreach (Combinacao item in listComb.Where(p => p.QtdRepeticoes >= pFrequencia).OrderBy(p => p.QtdRepeticoes))
             {
                 GravarArquivo(targetPath, item.IdCombinacao + " - " + item.QtdRepeticoes);
@@ -209,7 +209,7 @@ namespace Analisador.Entities
             {
                 GravarArquivo(targetPath, "Número Par: " + item.Key + " com Resultados: " + item.Value);
             }
-            
+
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             GravarArquivo(targetPath, " ");
         }
@@ -537,6 +537,53 @@ namespace Analisador.Entities
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             GravarArquivo(targetPath, " ");
         }
+
+        public static void MapaResultado(List<Resultado> resultados, int qtdConcurso)
+        {
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Mapa de resultados - Analisados os últimos " + resultados.Where(w => w.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados.");
+            foreach (Resultado resultado in resultados.Where(w => w.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso))
+            {
+                string result = resultado.Concurso.ToString().PadLeft(4,'0') + " - ";
+                int k = 1;
+                while (k < 26)
+                {
+                    if (k <= resultado.Numeros.Count)
+                    {
+                        foreach (var item in resultado.Numeros)
+                        {
+                            if (item == k)
+                            {
+                                result += item.ToString().PadLeft(2, '0') + " - ";
+                                k++;
+                            }
+                            else
+                            {
+                                while (k < item)
+                                {
+                                    result += "XX - ";
+                                    k++;
+                                }
+                                result += item.ToString().PadLeft(2, '0') + " - ";
+                                k++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        while (k < 26)
+                        {
+                            result += "XX - ";
+                            k++;
+                        }
+                    }
+                }
+                GravarArquivo(targetPath, result);
+            }
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
+        }
+
         public static void GravarArquivo(string caminho, string msg)
         {
             try
