@@ -56,7 +56,7 @@ namespace Loteria.Entities
             //21, 22, 23, 24, 25
         }
 
-        public static bool QuadrantesColuna(List<int> lista, List<string> parametros)
+        public static bool QuadranteColuna(List<int> lista, List<string> parametros)
         {
             List<int> listaResult = new List<int>();
             int numStart = 1;
@@ -95,6 +95,11 @@ namespace Loteria.Entities
             //03, 08, 13, 18, 23
             //04, 09, 14, 19, 24
             //05, 10, 15, 20, 25
+        }
+
+        public static bool SomaDezenas(List<int> lista, List<int> parametros)
+        {
+            return lista.Sum() >= parametros[0] && lista.Sum() <= parametros[1] ? true : false;
         }
     }
 }
