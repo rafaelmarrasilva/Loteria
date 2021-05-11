@@ -30,37 +30,57 @@ namespace Loteria
             }
             Console.WriteLine();
 
-            Console.Write("Informe quantos números pares o jogo deve ter (sep. virgula, caso sejá mais de um): ");
-            string numPares = Console.ReadLine();
-            foreach (var item in numPares.Split(','))
+            Console.Write("Deseja informar a quantidade de números pares [S/N] ? ");
+            string parSN = Console.ReadLine();
+            if (parSN.ToUpper() == "S")
             {
-                parametros.addPares(int.Parse(item));
+                Console.Write("Informe quantos números pares o jogo deve ter (sep. virgula, caso sejá mais de um): ");
+                string numPares = Console.ReadLine();
+                foreach (var item in numPares.Split(','))
+                {
+                    parametros.addPares(int.Parse(item));
+                }
             }
             Console.WriteLine();
 
-            List<string> listQL = new List<string>();
-            for (int i = 1; i < 6; i++)
+            Console.Write("Deseja informar a quantidade de números no quadrande Linha [S/N] ? ");
+            string qlSN = Console.ReadLine();
+            if (qlSN.ToUpper() == "S")
             {
-                Console.Write("Informe quantos números o jogo deve haver no quadrante linha "+ i + " (sep. virgula, caso sejá mais de um): ");
-                string preencherQL = Console.ReadLine();
-                parametros.addQuadLinha(preencherQL);
+                List<string> listQL = new List<string>();
+                for (int i = 1; i < 6; i++)
+                {
+                    Console.Write("Informe quantos números o jogo deve haver no quadrante linha " + i + " (sep. virgula, caso sejá mais de um): ");
+                    string preencherQL = Console.ReadLine();
+                    parametros.addQuadLinha(preencherQL);
+                }
             }
             Console.WriteLine();
 
-            List<string> listQC = new List<string>();
-            for (int i = 1; i < 6; i++)
+            Console.Write("Deseja informar a quantidade de números no quadrande coluna [S/N] ? ");
+            string qcSN = Console.ReadLine();
+            if (qcSN.ToUpper() == "S")
             {
-                Console.Write("Informe quantos números o jogo deve haver no quadrante coluna " + i + " (sep. virgula, caso sejá mais de um): ");
-                string preencherQC = Console.ReadLine();
-                parametros.addQuadColuna(preencherQC);
+                List<string> listQC = new List<string>();
+                for (int i = 1; i < 6; i++)
+                {
+                    Console.Write("Informe quantos números o jogo deve haver no quadrante coluna " + i + " (sep. virgula, caso sejá mais de um): ");
+                    string preencherQC = Console.ReadLine();
+                    parametros.addQuadColuna(preencherQC);
+                }
             }
             Console.WriteLine();
 
-            Console.Write("Informe o valor da menor e maior soma que o jogo pode conter (sep. virgula): ");
-            string sumDezenas = Console.ReadLine();
-            foreach (var item in sumDezenas.Split(','))
+            Console.Write("Deseja informar o intervalo da soma das dezenas de cada jogo [S/N] ? ");
+            string somaSN = Console.ReadLine();
+            if (somaSN.ToUpper() == "S")
             {
-                parametros.addSomaDezenas(int.Parse(item));
+                Console.Write("Informe o valor da menor e maior soma que o jogo pode conter (sep. virgula): ");
+                string sumDezenas = Console.ReadLine();
+                foreach (var item in sumDezenas.Split(','))
+                {
+                    parametros.addSomaDezenas(int.Parse(item));
+                }
             }
             Console.WriteLine();
 
