@@ -47,6 +47,23 @@ namespace Loteria
             }
             Console.WriteLine();
 
+            List<string> listQC = new List<string>();
+            for (int i = 1; i < 6; i++)
+            {
+                Console.Write("Informe quantos números o jogo deve haver no quadrante coluna " + i + " (sep. virgula, caso sejá mais de um): ");
+                string preencherQC = Console.ReadLine();
+                parametros.addQuadColuna(preencherQC);
+            }
+            Console.WriteLine();
+
+            Console.Write("Informe o valor da menor e maior soma que o jogo pode conter (sep. virgula): ");
+            string sumDezenas = Console.ReadLine();
+            foreach (var item in sumDezenas.Split(','))
+            {
+                parametros.addSomaDezenas(int.Parse(item));
+            }
+            Console.WriteLine();
+
             var jogosGerados = GerarJogo.GerarJogos(qtdJogos, parametros);
 
             //inicio impressão dos jogos gerados
