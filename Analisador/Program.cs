@@ -98,6 +98,9 @@ namespace Analisador
             //Analise dos numeros que mais foram sorteados
             Preencher.CincoMenosDosUltDoze(resultados);
 
+            //Numeros Atrasados
+            Preencher.NumerosAtrasados(resultados);
+
             //Mapa de Resultados
             Preencher.MapaResultado(resultados, nConcAnalise);
         }
