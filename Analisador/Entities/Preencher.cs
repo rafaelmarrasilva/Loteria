@@ -169,7 +169,7 @@ namespace Analisador.Entities
             //Impressao do analitico de acordo com os parametros selecionados para comparar as combinações.
             GravarArquivo(targetPath, "--------------------------------------------------------------------------------------------------------------");
             GravarArquivo(targetPath, "Combinações e frequência dos números analisando os últimos " + resultados.Where(c => c.Concurso >= resultados.Max(m => m.Concurso) - qtdConcurso).Count() + " resultados com frequência maior ou igua a " + pFrequencia);
-            foreach (Combinacao item in listComb.Where(p => p.QtdRepeticoes >= pFrequencia).OrderBy(p => p.QtdRepeticoes))
+            foreach (Combinacao item in listComb.Where(p => p.QtdRepeticoes >= pFrequencia).OrderByDescending(p => p.QtdRepeticoes))
             {
                 GravarArquivo(targetPath, item.IdCombinacao + " - " + item.QtdRepeticoes);
             }
@@ -594,6 +594,40 @@ namespace Analisador.Entities
                 GravarArquivo(targetPath, item.Key.ToString().PadLeft(2,'0') + " - " + item.Value);
             }
 
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, " ");
+        }
+
+        public static void NumerosAtrasados(List<Resultado> resultados)
+        {
+            Dictionary<int, int> dictNumAtras = new Dictionary<int, int>();
+
+            for (int i = 1; i < 26; i++)
+            {
+                int conta = 0;
+                foreach (var resultado in resultados.OrderByDescending(s => s.Concurso))
+                {
+                    if (!resultado.Numeros.Contains(i))
+                    {
+                        conta++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (!dictNumAtras.TryGetValue(i, out int values))
+                {
+                    dictNumAtras.Add(i, conta);
+                }
+            }
+            GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
+            GravarArquivo(targetPath, "Números Atrasados.");
+            foreach (var item in dictNumAtras.OrderByDescending(s => s.Value).Where(w => w.Value > 0))
+            {
+                GravarArquivo(targetPath, item.Key.ToString().PadLeft(2, '0') + " - " + item.Value);
+            }
             GravarArquivo(targetPath, "=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
             GravarArquivo(targetPath, " ");
         }
