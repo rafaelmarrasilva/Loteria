@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loteria", "GeradorNumeros\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analisador", "Analisador\Analisador.csproj", "{6B922727-9F72-487C-B6A9-61FE9C984DC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador", "Gerador\Gerador.csproj", "{E6F464C9-38FD-4172-B4AD-ED4F6A1C7CB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6B922727-9F72-487C-B6A9-61FE9C984DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B922727-9F72-487C-B6A9-61FE9C984DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B922727-9F72-487C-B6A9-61FE9C984DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F464C9-38FD-4172-B4AD-ED4F6A1C7CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F464C9-38FD-4172-B4AD-ED4F6A1C7CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F464C9-38FD-4172-B4AD-ED4F6A1C7CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F464C9-38FD-4172-B4AD-ED4F6A1C7CB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

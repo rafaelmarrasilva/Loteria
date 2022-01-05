@@ -38,6 +38,8 @@ namespace Loteria.Entities
                     Regras.QuadranteLinha(lista, parametros.QuadLinha) &&
                     Regras.QuadranteColuna(lista, parametros.QuadColuna) &&
                     Regras.SomaDezenas(lista, parametros.SomaDezenas) &&
+                    Regras.MaiorSequencia(lista,parametros.MaiorSequencia) &&
+                    Regras.MenorSequencia(lista,parametros.MenorSequencia) &&
                     Similaridade.Similar(lista, jogos)
                     )
                 {

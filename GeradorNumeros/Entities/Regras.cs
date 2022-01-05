@@ -117,5 +117,53 @@ namespace Loteria.Entities
             }
             return lista.Sum() >= parametros[0] && lista.Sum() <= parametros[1] ? true : false;
         }
+
+        public static bool MaiorSequencia(List<int> lista, int parametro)
+        {
+            if (parametro == 0)
+            {
+                return true;
+            }
+
+            lista.Sort();
+            int nSequencia = 0;
+
+            for (int i = 0; i < lista.Count(); i++)
+            {
+                if (lista.Contains((lista[i]) + 1))
+                    nSequencia++;
+                else
+                    nSequencia = 1;
+
+                if (nSequencia > parametro)
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool MenorSequencia(List<int> lista, int parametro)
+        {
+            if (parametro == 0)
+            {
+                return true;
+            }
+
+            lista.Sort();
+            int nSequencia = 0;
+
+            for (int i = 0; i < lista.Count(); i++)
+            {
+                if (lista.Contains((lista[i]) + 1))
+                    nSequencia++;
+                else
+                {
+                    if (nSequencia < parametro)
+                        return false;
+
+                    nSequencia = 1;
+                }
+            }
+            return true;
+        }
     }
 }

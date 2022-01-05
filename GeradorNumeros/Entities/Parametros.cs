@@ -13,6 +13,8 @@ namespace Loteria.Entities
         public List<string> QuadLinha { get; set; } = new List<string>();
         public List<string> QuadColuna { get; set; } = new List<string>();
         public List<int> SomaDezenas { get; set; } = new List<int>();
+        public int MaiorSequencia { get; set; }
+        public int MenorSequencia { get; set; }
 
         public void addMatriz(int numMatriz)
         {
@@ -39,5 +41,14 @@ namespace Loteria.Entities
             SomaDezenas.Add(numSoma);
         }
 
+        public void addMaiorSequencia(int seq)
+        {
+            MaiorSequencia = seq;
+        }
+
+        public void addMenorSequencia(int seq)
+        {
+            MenorSequencia = seq;
+        }
     }
 }
