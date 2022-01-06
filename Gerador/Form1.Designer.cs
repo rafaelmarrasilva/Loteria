@@ -71,8 +71,21 @@ namespace Gerador
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtMatriz = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Analisador = new System.Windows.Forms.TabPage();
+            this.btnClearImp = new System.Windows.Forms.Button();
+            this.rTxtResulImport = new System.Windows.Forms.RichTextBox();
+            this.btnImporta = new System.Windows.Forms.Button();
+            this.Gerador = new System.Windows.Forms.TabPage();
+            this.rTxtResumoImpor = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.Analisador.SuspendLayout();
+            this.Gerador.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -141,7 +154,7 @@ namespace Gerador
             // btnGerar
             // 
             this.btnGerar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnGerar.Location = new System.Drawing.Point(412, 461);
+            this.btnGerar.Location = new System.Drawing.Point(417, 458);
             this.btnGerar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGerar.Name = "btnGerar";
             this.btnGerar.Size = new System.Drawing.Size(96, 51);
@@ -153,7 +166,7 @@ namespace Gerador
             // rTxtResult
             // 
             this.rTxtResult.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rTxtResult.Location = new System.Drawing.Point(412, 292);
+            this.rTxtResult.Location = new System.Drawing.Point(417, 289);
             this.rTxtResult.Name = "rTxtResult";
             this.rTxtResult.Size = new System.Drawing.Size(518, 152);
             this.rTxtResult.TabIndex = 6;
@@ -161,7 +174,7 @@ namespace Gerador
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(546, 461);
+            this.btnClear.Location = new System.Drawing.Point(551, 458);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(96, 51);
             this.btnClear.TabIndex = 7;
@@ -223,9 +236,9 @@ namespace Gerador
             this.label8.ForeColor = System.Drawing.Color.Red;
             this.label8.Location = new System.Drawing.Point(112, 381);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(193, 15);
+            this.label8.Size = new System.Drawing.Size(75, 15);
             this.label8.TabIndex = 15;
-            this.label8.Text = "(sep. virgula, caso sejá mais de um)";
+            this.label8.Text = "(sep. virgula)";
             // 
             // label6
             // 
@@ -472,7 +485,7 @@ namespace Gerador
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label19);
             this.groupBox1.Controls.Add(this.chkQC);
-            this.groupBox1.Location = new System.Drawing.Point(412, 30);
+            this.groupBox1.Location = new System.Drawing.Point(417, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(518, 238);
             this.groupBox1.TabIndex = 40;
@@ -492,6 +505,9 @@ namespace Gerador
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.txtMatriz);
+            this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtQtJogos);
             this.groupBox2.Controls.Add(this.label8);
@@ -504,23 +520,124 @@ namespace Gerador
             this.groupBox2.Controls.Add(this.txtMenorSeq);
             this.groupBox2.Controls.Add(this.txtMaiorSeq);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Location = new System.Drawing.Point(12, 21);
+            this.groupBox2.Location = new System.Drawing.Point(17, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(385, 437);
+            this.groupBox2.Size = new System.Drawing.Size(385, 491);
             this.groupBox2.TabIndex = 41;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Critérios de Geração";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label22.ForeColor = System.Drawing.Color.Red;
+            this.label22.Location = new System.Drawing.Point(184, 460);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(193, 15);
+            this.label22.TabIndex = 18;
+            this.label22.Text = "(sep. virgula, caso sejá mais de um)";
+            // 
+            // txtMatriz
+            // 
+            this.txtMatriz.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtMatriz.Location = new System.Drawing.Point(11, 455);
+            this.txtMatriz.Name = "txtMatriz";
+            this.txtMatriz.Size = new System.Drawing.Size(167, 25);
+            this.txtMatriz.TabIndex = 17;
+            this.txtMatriz.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(11, 430);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(329, 21);
+            this.label21.TabIndex = 16;
+            this.label21.Text = "Informe os números que todos os jogos terão:";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.Analisador);
+            this.tabControl1.Controls.Add(this.Gerador);
+            this.tabControl1.Location = new System.Drawing.Point(25, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(967, 562);
+            this.tabControl1.TabIndex = 42;
+            // 
+            // Analisador
+            // 
+            this.Analisador.Controls.Add(this.rTxtResumoImpor);
+            this.Analisador.Controls.Add(this.btnClearImp);
+            this.Analisador.Controls.Add(this.rTxtResulImport);
+            this.Analisador.Controls.Add(this.btnImporta);
+            this.Analisador.Location = new System.Drawing.Point(4, 30);
+            this.Analisador.Name = "Analisador";
+            this.Analisador.Padding = new System.Windows.Forms.Padding(3);
+            this.Analisador.Size = new System.Drawing.Size(959, 528);
+            this.Analisador.TabIndex = 1;
+            this.Analisador.Text = "Analisador";
+            this.Analisador.UseVisualStyleBackColor = true;
+            this.Analisador.Click += new System.EventHandler(this.Analisador_Click);
+            // 
+            // btnClearImp
+            // 
+            this.btnClearImp.Location = new System.Drawing.Point(169, 140);
+            this.btnClearImp.Name = "btnClearImp";
+            this.btnClearImp.Size = new System.Drawing.Size(85, 44);
+            this.btnClearImp.TabIndex = 2;
+            this.btnClearImp.Text = "Clear";
+            this.btnClearImp.UseVisualStyleBackColor = true;
+            this.btnClearImp.Click += new System.EventHandler(this.btnClearImp_Click);
+            // 
+            // rTxtResulImport
+            // 
+            this.rTxtResulImport.Location = new System.Drawing.Point(43, 27);
+            this.rTxtResulImport.Name = "rTxtResulImport";
+            this.rTxtResulImport.Size = new System.Drawing.Size(667, 96);
+            this.rTxtResulImport.TabIndex = 1;
+            this.rTxtResulImport.Text = "";
+            // 
+            // btnImporta
+            // 
+            this.btnImporta.Location = new System.Drawing.Point(43, 139);
+            this.btnImporta.Name = "btnImporta";
+            this.btnImporta.Size = new System.Drawing.Size(85, 45);
+            this.btnImporta.TabIndex = 0;
+            this.btnImporta.Text = "Importar";
+            this.btnImporta.UseVisualStyleBackColor = true;
+            this.btnImporta.Click += new System.EventHandler(this.btnImporta_Click);
+            // 
+            // Gerador
+            // 
+            this.Gerador.Controls.Add(this.groupBox2);
+            this.Gerador.Controls.Add(this.btnGerar);
+            this.Gerador.Controls.Add(this.groupBox1);
+            this.Gerador.Controls.Add(this.rTxtResult);
+            this.Gerador.Controls.Add(this.btnClear);
+            this.Gerador.Location = new System.Drawing.Point(4, 30);
+            this.Gerador.Name = "Gerador";
+            this.Gerador.Padding = new System.Windows.Forms.Padding(3);
+            this.Gerador.Size = new System.Drawing.Size(959, 528);
+            this.Gerador.TabIndex = 0;
+            this.Gerador.Text = "Gerador";
+            this.Gerador.UseVisualStyleBackColor = true;
+            // 
+            // rTxtResumoImpor
+            // 
+            this.rTxtResumoImpor.Location = new System.Drawing.Point(739, 27);
+            this.rTxtResumoImpor.Name = "rTxtResumoImpor";
+            this.rTxtResumoImpor.Size = new System.Drawing.Size(188, 96);
+            this.rTxtResumoImpor.TabIndex = 3;
+            this.rTxtResumoImpor.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 530);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.rTxtResult);
-            this.Controls.Add(this.btnGerar);
+            this.ClientSize = new System.Drawing.Size(1013, 591);
+            this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -529,6 +646,9 @@ namespace Gerador
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.Analisador.ResumeLayout(false);
+            this.Gerador.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -577,6 +697,16 @@ namespace Gerador
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox txtMatriz;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage Gerador;
+        private System.Windows.Forms.TabPage Analisador;
+        private System.Windows.Forms.RichTextBox rTxtResulImport;
+        private System.Windows.Forms.Button btnImporta;
+        private System.Windows.Forms.Button btnClearImp;
+        private System.Windows.Forms.RichTextBox rTxtResumoImpor;
     }
 }
 

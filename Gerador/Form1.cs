@@ -18,16 +18,18 @@ namespace Gerador
             InitializeComponent();
         }
 
+        List<Resultado> resultImporta = new List<Resultado>();
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-
                 txtNumPares.Enabled = false;
                 txtMaiorSeq.Enabled = false;
                 txtMenorSeq.Enabled = false;
                 txtQtJogos.Enabled = false;
                 txtSomaDezenas.Enabled = false;
+                txtMatriz.Enabled = false;
                 chkQC.Enabled = false;
                 txtQC1.Enabled = false;
                 txtQC1.Enabled = false;
@@ -45,37 +47,65 @@ namespace Gerador
 
                 Parametros parametros = new Parametros();
 
+                if (String.IsNullOrEmpty(txtQtJogos.Text))
+                    throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
+
+                int vTxtQtJogos;
+                if (!int.TryParse(txtQtJogos.Text, out vTxtQtJogos))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                if (!String.IsNullOrEmpty(txtNumPares.Text))
+                {
+                    foreach (var item in txtNumPares.Text.Split(','))
+                    {
+                        if (int.TryParse(item, out int vTxtNumPares))
+                            parametros.addPares(vTxtNumPares);
+                        else
+                            throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                    }
+                }
+
                 if (!String.IsNullOrEmpty(txtMaiorSeq.Text))
                 {
                     if (int.TryParse(txtMaiorSeq.Text, out int vTxtMaiorSeq))
                         parametros.addMaiorSequencia(vTxtMaiorSeq);
                     else
-                        throw new InvalidProgramException("Só é permitido digitar numeros");
+                        throw new InvalidProgramException("Só é permitido digitar números.");
                 }
-
 
                 if (!String.IsNullOrEmpty(txtMenorSeq.Text))
                 {
                     if (int.TryParse(txtMenorSeq.Text, out int vTxtMenorSeq))
                         parametros.addMenorSequencia(vTxtMenorSeq);
                     else
-                        throw new InvalidProgramException("Só é permitido digitar numeros");
-                }
-                    
-
-                if (!String.IsNullOrEmpty(txtNumPares.Text))
-                {
-                    foreach (var item in txtNumPares.Text.Split(','))
-                    {
-                        parametros.addPares(int.Parse(item));
-                    }
+                        throw new InvalidProgramException("Só é permitido digitar números.");
                 }
 
                 if (!String.IsNullOrEmpty(txtSomaDezenas.Text))
                 {
-                    foreach (var item in txtSomaDezenas.Text.Split(','))
+                    string[] splitSomaDezenas = txtSomaDezenas.Text.Split(',');
+                    if (splitSomaDezenas.Length != 2)
+                        throw new InvalidProgramException("É necessario informar dois valores separados por ','.");
+                    else
                     {
-                        parametros.addSomaDezenas(int.Parse(item));
+                        foreach (var item in txtSomaDezenas.Text.Split(','))
+                        {
+                            if (int.TryParse(item, out int vTxtSomaDezenas))
+                                parametros.addSomaDezenas(vTxtSomaDezenas);
+                            else
+                                throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                        }
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(txtMatriz.Text))
+                {
+                    foreach (var item in txtMatriz.Text.Split(','))
+                    {
+                        if (int.TryParse(item, out int vTxtMatriz))
+                            parametros.addMatriz(vTxtMatriz);
+                        else
+                            throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
                     }
                 }
 
@@ -108,13 +138,7 @@ namespace Gerador
                     }
                 }
 
-                var jogosGerados = new List<Jogo>();
-
-                if (int.TryParse(txtQtJogos.Text, out int vTxtQtJogos))
-                    jogosGerados = GerarJogo.GerarJogos(vTxtQtJogos, parametros);
-                else
-                    throw new InvalidProgramException("Só é permitido digitar numeros");
-
+                var jogosGerados = GerarJogo.GerarJogos(vTxtQtJogos, parametros);
 
                 foreach (var jogos in jogosGerados)
                 {
@@ -129,29 +153,33 @@ namespace Gerador
                 rTxtResult.ReadOnly = true;
 
                 btnGerar.Enabled = false;
-                MessageBox.Show("Jogos gerados com sucesso!");
+                MessageBox.Show("Jogos gerados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message,"Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnClear_Click(null, null);
             }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            rTxtResult.Clear();
+            txtQtJogos.Clear();
             txtNumPares.Clear();
             txtMaiorSeq.Clear();
             txtMenorSeq.Clear();
-            txtQtJogos.Clear();
             txtSomaDezenas.Clear();
-            txtSomaDezenas.Enabled = true;
+            txtMatriz.Clear();
+            rTxtResult.Clear();
+
+            txtQtJogos.Enabled = true;
             txtNumPares.Enabled = true;
             txtMaiorSeq.Enabled = true;
             txtMenorSeq.Enabled = true;
-            txtQtJogos.Enabled = true;
+            txtSomaDezenas.Enabled = true;
+            txtMatriz.Enabled = true;
             btnGerar.Enabled = true;
+
             chkQC.Enabled = true;
             chkQC.Checked = false;
             txtQC1.Clear();
@@ -159,6 +187,7 @@ namespace Gerador
             txtQC3.Clear();
             txtQC4.Clear();
             txtQC5.Clear();
+
             chkQL.Enabled = true;
             chkQL.Checked = false;
             txtQL1.Clear();
@@ -224,6 +253,47 @@ namespace Gerador
                 txtQL4.Enabled = false;
                 txtQL5.Enabled = false;
             }
+        }
+
+        private void btnImporta_Click(object sender, EventArgs e)
+        {
+            btnImporta.Enabled = false;
+            rTxtResulImport.Clear();
+            rTxtResumoImpor.Clear();
+            rTxtResulImport.ReadOnly = true;
+            rTxtResumoImpor.ReadOnly = true;
+
+            (var result, string resumoImport) = Regras.CarregarResultados();
+            resultImporta = result;
+
+            foreach (var item in resultImporta.Where(c => c.Concurso > resultImporta.Max(w => w.Concurso) - 3).OrderByDescending(s => s.Concurso))
+            {
+                string Corpo = item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy")+ " - ";
+                string Itens = null;
+                foreach (var num in item.Numeros)
+                {
+                    Itens += num.ToString().PadLeft(2,'0') + " - ";
+                }
+                rTxtResulImport.Text += Corpo + Itens.Substring(0,Itens.Length-3) + "\r\n";
+            }
+
+            string[] resultadoImportacao = resumoImport.Split(',');
+            rTxtResumoImpor.Text += "Linhas Importada: " + resultadoImportacao[0] + "\r\n";
+            rTxtResumoImpor.Text += "Linhas com Erro : " + resultadoImportacao[1] + "\r\n";
+            rTxtResumoImpor.Text += "Total de Linhas : " + (int.Parse(resultadoImportacao[0]) + int.Parse(resultadoImportacao[1])).ToString();
+        }
+
+        private void Analisador_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClearImp_Click(object sender, EventArgs e)
+        {
+            resultImporta.Clear();
+            rTxtResulImport.Clear();
+            rTxtResumoImpor.Clear();
+            btnImporta.Enabled = true;
         }
     }
 }

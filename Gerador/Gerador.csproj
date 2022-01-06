@@ -10,4 +10,10 @@
     <ProjectReference Include="..\GeradorNumeros\Loteria.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="resultados.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

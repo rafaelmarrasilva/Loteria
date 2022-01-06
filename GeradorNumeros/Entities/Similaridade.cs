@@ -26,5 +26,15 @@ namespace Loteria.Entities
             }
             return result;
         }
+
+        public static bool ResultadosAnteriores(List<int> lista, List<Resultado> resultados)
+        {
+            if (resultados.Count() == 0)
+                return true;
+
+            //Se encontrar similaridade com um resultado sai com false.
+
+            return true;
+        }
     }
 }

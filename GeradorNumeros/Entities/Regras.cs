@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,38 @@ namespace Loteria.Entities
 {
     public static class Regras
     {
+
+        public static (List<Resultado>, string) CarregarResultados()
+        {
+            List<Resultado> result = new List<Resultado>();
+            int resultNaoImpor = 0;
+            foreach (var linhas in File.ReadAllLines("resultados.txt"))
+            {
+                Resultado resultado = new Resultado();
+                string[] vs = linhas.ToString().Split(',');
+                if (vs.Length == 17)
+                {
+                    resultado.Concurso = int.Parse(vs[0]);
+                    resultado.Data = DateTime.Parse(vs[1]);
+                    List<int> lista = new List<int>();
+
+                    for (int i = 2; i < vs.Length; i++)
+                    {
+                        lista.Add(int.Parse(vs[i]));
+                    }
+                    lista.Sort();
+                    resultado.Numeros = lista;
+                }
+                else
+                    resultNaoImpor++;
+
+                result.Add(resultado);
+            }
+            string qtdResultImport = result.Count() + "," + resultNaoImpor;
+
+            return (result, qtdResultImport) ;
+        }
+
         public static bool Pares(List<int> lista, List<int> parametros)
         {
             if (parametros.Count() == 0)
@@ -114,6 +147,11 @@ namespace Loteria.Entities
             if (parametros.Count() == 0)
             {
                 return true;
+            }
+            parametros.Sort();
+            if (!(parametros[0] >= 120 && parametros[1] <= 270))
+            {
+                throw new Exception("Soma das Dezenas não está no intervalo aceito [120 a 270];");
             }
             return lista.Sum() >= parametros[0] && lista.Sum() <= parametros[1] ? true : false;
         }
