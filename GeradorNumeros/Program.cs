@@ -84,6 +84,7 @@ namespace Loteria
             }
             Console.WriteLine();
 
+            /*
             var jogosGerados = GerarJogo.GerarJogos(qtdJogos, parametros);
 
             //inicio impressão dos jogos gerados
@@ -103,6 +104,7 @@ namespace Loteria
                 }
                 Console.WriteLine();
             }
+            */
             //fim da impressão dos jogos gerados
         }
     }

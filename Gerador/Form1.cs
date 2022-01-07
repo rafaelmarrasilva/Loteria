@@ -138,7 +138,7 @@ namespace Gerador
                     }
                 }
 
-                var jogosGerados = GerarJogo.GerarJogos(vTxtQtJogos, parametros);
+                var jogosGerados = GerarJogo.GerarJogos(vTxtQtJogos, parametros, resultImporta);
 
                 foreach (var jogos in jogosGerados)
                 {
@@ -266,7 +266,7 @@ namespace Gerador
             (var result, string resumoImport) = Regras.CarregarResultados();
             resultImporta = result;
 
-            foreach (var item in resultImporta.Where(c => c.Concurso > resultImporta.Max(w => w.Concurso) - 3).OrderByDescending(s => s.Concurso))
+            foreach (var item in resultImporta.Where(c => c.Concurso >= resultImporta.Max(w => w.Concurso) - 3).OrderByDescending(s => s.Concurso))
             {
                 string Corpo = item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy")+ " - ";
                 string Itens = null;

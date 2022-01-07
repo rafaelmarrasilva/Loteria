@@ -8,7 +8,7 @@ namespace Loteria.Entities
 {
     public static class Similaridade
     {
-        public static bool Similar(List<int> lista, List<Jogo> pLista)
+        public static bool Similar(List<int> lista, List<Jogo> pLista, int qtdSimilar)
         {
             bool result = true;
             foreach (var p in pLista)
@@ -27,14 +27,27 @@ namespace Loteria.Entities
             return result;
         }
 
-        public static bool ResultadosAnteriores(List<int> lista, List<Resultado> resultados)
+        public static bool ResultadosAnteriores(List<int> lista, List<Resultado> resultados, int qtdSimilar)
         {
             if (resultados.Count() == 0)
                 return true;
 
             //Se encontrar similaridade com um resultado sai com false.
+            bool result = true;
+            foreach(var p in resultados)
+            {
+                var listJogoGerado = new HashSet<int>(lista);
+                var listResultConcuros = new HashSet<int>(p.Numeros);
 
-            return true;
+                listJogoGerado.IntersectWith(listResultConcuros);
+
+                if (listJogoGerado.Count() >= qtdSimilar)
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Loteria.Entities
 {
     public static class GerarJogo
     {
-        public static List<Jogo> GerarJogos(int numJogos, Parametros parametros)
+        public static List<Jogo> GerarJogos(int numJogos, Parametros parametros, List<Resultado> listResultados)
         {
             List<Jogo> jogos = new List<Jogo>();
             int numero;
@@ -40,7 +40,8 @@ namespace Loteria.Entities
                     Regras.SomaDezenas(lista, parametros.SomaDezenas) &&
                     Regras.MaiorSequencia(lista,parametros.MaiorSequencia) &&
                     Regras.MenorSequencia(lista,parametros.MenorSequencia) &&
-                    Similaridade.Similar(lista, jogos)
+                    Similaridade.ResultadosAnteriores(lista, listResultados, 14) &&
+                    Similaridade.Similar(lista, jogos, 14)
                     )
                 {
                     lista.Sort();
