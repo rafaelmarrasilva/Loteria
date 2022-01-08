@@ -75,17 +75,36 @@ namespace Gerador
             this.txtMatriz = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.Analisador = new System.Windows.Forms.TabPage();
+            this.tpAnalisador = new System.Windows.Forms.TabPage();
+            this.label27 = new System.Windows.Forms.Label();
+            this.rTxtSomaDezenas = new System.Windows.Forms.RichTextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.rTxtQtdPares = new System.Windows.Forms.RichTextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txtQtConcAnalisar = new System.Windows.Forms.TextBox();
+            this.btnAnalisar = new System.Windows.Forms.Button();
+            this.rTxtNumMaisSorteados = new System.Windows.Forms.RichTextBox();
+            this.tpGerador = new System.Windows.Forms.TabPage();
+            this.tpResultadosImport = new System.Windows.Forms.TabPage();
             this.btnClearImp = new System.Windows.Forms.Button();
-            this.rTxtResulImport = new System.Windows.Forms.RichTextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtNomeArquivo = new System.Windows.Forms.TextBox();
             this.btnImporta = new System.Windows.Forms.Button();
-            this.Gerador = new System.Windows.Forms.TabPage();
             this.rTxtResumoImpor = new System.Windows.Forms.RichTextBox();
+            this.rTxtResulImport = new System.Windows.Forms.RichTextBox();
+            this.rTxtQuadranteLinha = new System.Windows.Forms.RichTextBox();
+            this.rTxtQuadranteColuna = new System.Windows.Forms.RichTextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.Analisador.SuspendLayout();
-            this.Gerador.SuspendLayout();
+            this.tpAnalisador.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tpGerador.SuspendLayout();
+            this.tpResultadosImport.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -558,79 +577,257 @@ namespace Gerador
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.Analisador);
-            this.tabControl1.Controls.Add(this.Gerador);
+            this.tabControl1.Controls.Add(this.tpAnalisador);
+            this.tabControl1.Controls.Add(this.tpGerador);
+            this.tabControl1.Controls.Add(this.tpResultadosImport);
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(967, 562);
             this.tabControl1.TabIndex = 42;
             // 
-            // Analisador
+            // tpAnalisador
             // 
-            this.Analisador.Controls.Add(this.rTxtResumoImpor);
-            this.Analisador.Controls.Add(this.btnClearImp);
-            this.Analisador.Controls.Add(this.rTxtResulImport);
-            this.Analisador.Controls.Add(this.btnImporta);
-            this.Analisador.Location = new System.Drawing.Point(4, 30);
-            this.Analisador.Name = "Analisador";
-            this.Analisador.Padding = new System.Windows.Forms.Padding(3);
-            this.Analisador.Size = new System.Drawing.Size(959, 528);
-            this.Analisador.TabIndex = 1;
-            this.Analisador.Text = "Analisador";
-            this.Analisador.UseVisualStyleBackColor = true;
-            this.Analisador.Click += new System.EventHandler(this.Analisador_Click);
+            this.tpAnalisador.Controls.Add(this.label29);
+            this.tpAnalisador.Controls.Add(this.label28);
+            this.tpAnalisador.Controls.Add(this.rTxtQuadranteColuna);
+            this.tpAnalisador.Controls.Add(this.rTxtQuadranteLinha);
+            this.tpAnalisador.Controls.Add(this.label27);
+            this.tpAnalisador.Controls.Add(this.rTxtSomaDezenas);
+            this.tpAnalisador.Controls.Add(this.label26);
+            this.tpAnalisador.Controls.Add(this.rTxtQtdPares);
+            this.tpAnalisador.Controls.Add(this.label24);
+            this.tpAnalisador.Controls.Add(this.groupBox3);
+            this.tpAnalisador.Controls.Add(this.rTxtNumMaisSorteados);
+            this.tpAnalisador.Location = new System.Drawing.Point(4, 30);
+            this.tpAnalisador.Name = "tpAnalisador";
+            this.tpAnalisador.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAnalisador.Size = new System.Drawing.Size(959, 528);
+            this.tpAnalisador.TabIndex = 1;
+            this.tpAnalisador.Text = "Analisador";
+            this.tpAnalisador.UseVisualStyleBackColor = true;
+            this.tpAnalisador.Click += new System.EventHandler(this.Analisador_Click);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label27.Location = new System.Drawing.Point(440, 27);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(151, 21);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Soma das Dezenas";
+            // 
+            // rTxtSomaDezenas
+            // 
+            this.rTxtSomaDezenas.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtSomaDezenas.Location = new System.Drawing.Point(440, 51);
+            this.rTxtSomaDezenas.Name = "rTxtSomaDezenas";
+            this.rTxtSomaDezenas.Size = new System.Drawing.Size(186, 135);
+            this.rTxtSomaDezenas.TabIndex = 11;
+            this.rTxtSomaDezenas.Text = "";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label26.Location = new System.Drawing.Point(15, 181);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(167, 21);
+            this.label26.TabIndex = 10;
+            this.label26.Text = "Qtd. Par x Qtd. Vezes";
+            // 
+            // rTxtQtdPares
+            // 
+            this.rTxtQtdPares.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtQtdPares.Location = new System.Drawing.Point(15, 205);
+            this.rTxtQtdPares.Name = "rTxtQtdPares";
+            this.rTxtQtdPares.Size = new System.Drawing.Size(191, 245);
+            this.rTxtQtdPares.TabIndex = 9;
+            this.rTxtQtdPares.Text = "";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label24.Location = new System.Drawing.Point(229, 181);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(170, 21);
+            this.label24.TabIndex = 8;
+            this.label24.Text = "Num. mais sorteados";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label23);
+            this.groupBox3.Controls.Add(this.txtQtConcAnalisar);
+            this.groupBox3.Controls.Add(this.btnAnalisar);
+            this.groupBox3.Location = new System.Drawing.Point(15, 18);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(383, 137);
+            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "groupBox3";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label23.Location = new System.Drawing.Point(7, 35);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(248, 21);
+            this.label23.TabIndex = 8;
+            this.label23.Text = "Informe a qtde de jogos a analisar:";
+            // 
+            // txtQtConcAnalisar
+            // 
+            this.txtQtConcAnalisar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtQtConcAnalisar.Location = new System.Drawing.Point(7, 59);
+            this.txtQtConcAnalisar.Name = "txtQtConcAnalisar";
+            this.txtQtConcAnalisar.Size = new System.Drawing.Size(57, 25);
+            this.txtQtConcAnalisar.TabIndex = 6;
+            this.txtQtConcAnalisar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnAnalisar
+            // 
+            this.btnAnalisar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAnalisar.Location = new System.Drawing.Point(304, 93);
+            this.btnAnalisar.Name = "btnAnalisar";
+            this.btnAnalisar.Size = new System.Drawing.Size(73, 38);
+            this.btnAnalisar.TabIndex = 4;
+            this.btnAnalisar.Text = "Analisar";
+            this.btnAnalisar.UseVisualStyleBackColor = true;
+            this.btnAnalisar.Click += new System.EventHandler(this.btnAnalisar_Click);
+            // 
+            // rTxtNumMaisSorteados
+            // 
+            this.rTxtNumMaisSorteados.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtNumMaisSorteados.Location = new System.Drawing.Point(226, 205);
+            this.rTxtNumMaisSorteados.Name = "rTxtNumMaisSorteados";
+            this.rTxtNumMaisSorteados.Size = new System.Drawing.Size(178, 297);
+            this.rTxtNumMaisSorteados.TabIndex = 5;
+            this.rTxtNumMaisSorteados.Text = "";
+            // 
+            // tpGerador
+            // 
+            this.tpGerador.Controls.Add(this.groupBox2);
+            this.tpGerador.Controls.Add(this.btnGerar);
+            this.tpGerador.Controls.Add(this.groupBox1);
+            this.tpGerador.Controls.Add(this.rTxtResult);
+            this.tpGerador.Controls.Add(this.btnClear);
+            this.tpGerador.Location = new System.Drawing.Point(4, 30);
+            this.tpGerador.Name = "tpGerador";
+            this.tpGerador.Padding = new System.Windows.Forms.Padding(3);
+            this.tpGerador.Size = new System.Drawing.Size(959, 528);
+            this.tpGerador.TabIndex = 0;
+            this.tpGerador.Text = "Gerador";
+            this.tpGerador.UseVisualStyleBackColor = true;
+            // 
+            // tpResultadosImport
+            // 
+            this.tpResultadosImport.Controls.Add(this.btnClearImp);
+            this.tpResultadosImport.Controls.Add(this.label25);
+            this.tpResultadosImport.Controls.Add(this.txtNomeArquivo);
+            this.tpResultadosImport.Controls.Add(this.btnImporta);
+            this.tpResultadosImport.Controls.Add(this.rTxtResumoImpor);
+            this.tpResultadosImport.Controls.Add(this.rTxtResulImport);
+            this.tpResultadosImport.Location = new System.Drawing.Point(4, 30);
+            this.tpResultadosImport.Name = "tpResultadosImport";
+            this.tpResultadosImport.Size = new System.Drawing.Size(959, 528);
+            this.tpResultadosImport.TabIndex = 2;
+            this.tpResultadosImport.Text = "Importar Resultados";
+            this.tpResultadosImport.UseVisualStyleBackColor = true;
             // 
             // btnClearImp
             // 
-            this.btnClearImp.Location = new System.Drawing.Point(169, 140);
+            this.btnClearImp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnClearImp.Location = new System.Drawing.Point(155, 418);
             this.btnClearImp.Name = "btnClearImp";
-            this.btnClearImp.Size = new System.Drawing.Size(85, 44);
-            this.btnClearImp.TabIndex = 2;
+            this.btnClearImp.Size = new System.Drawing.Size(88, 45);
+            this.btnClearImp.TabIndex = 43;
             this.btnClearImp.Text = "Clear";
             this.btnClearImp.UseVisualStyleBackColor = true;
-            this.btnClearImp.Click += new System.EventHandler(this.btnClearImp_Click);
+            this.btnClearImp.Click += new System.EventHandler(this.btnClearImp_Click_1);
             // 
-            // rTxtResulImport
+            // label25
             // 
-            this.rTxtResulImport.Location = new System.Drawing.Point(43, 27);
-            this.rTxtResulImport.Name = "rTxtResulImport";
-            this.rTxtResulImport.Size = new System.Drawing.Size(667, 96);
-            this.rTxtResulImport.TabIndex = 1;
-            this.rTxtResulImport.Text = "";
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(28, 29);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(137, 21);
+            this.label25.TabIndex = 8;
+            this.label25.Text = "Nome do Arquivo:";
+            // 
+            // txtNomeArquivo
+            // 
+            this.txtNomeArquivo.Location = new System.Drawing.Point(171, 21);
+            this.txtNomeArquivo.Name = "txtNomeArquivo";
+            this.txtNomeArquivo.Size = new System.Drawing.Size(257, 29);
+            this.txtNomeArquivo.TabIndex = 7;
             // 
             // btnImporta
             // 
-            this.btnImporta.Location = new System.Drawing.Point(43, 139);
+            this.btnImporta.Location = new System.Drawing.Point(15, 418);
             this.btnImporta.Name = "btnImporta";
             this.btnImporta.Size = new System.Drawing.Size(85, 45);
-            this.btnImporta.TabIndex = 0;
+            this.btnImporta.TabIndex = 6;
             this.btnImporta.Text = "Importar";
             this.btnImporta.UseVisualStyleBackColor = true;
-            this.btnImporta.Click += new System.EventHandler(this.btnImporta_Click);
-            // 
-            // Gerador
-            // 
-            this.Gerador.Controls.Add(this.groupBox2);
-            this.Gerador.Controls.Add(this.btnGerar);
-            this.Gerador.Controls.Add(this.groupBox1);
-            this.Gerador.Controls.Add(this.rTxtResult);
-            this.Gerador.Controls.Add(this.btnClear);
-            this.Gerador.Location = new System.Drawing.Point(4, 30);
-            this.Gerador.Name = "Gerador";
-            this.Gerador.Padding = new System.Windows.Forms.Padding(3);
-            this.Gerador.Size = new System.Drawing.Size(959, 528);
-            this.Gerador.TabIndex = 0;
-            this.Gerador.Text = "Gerador";
-            this.Gerador.UseVisualStyleBackColor = true;
+            this.btnImporta.Click += new System.EventHandler(this.btnImporta_Click_1);
             // 
             // rTxtResumoImpor
             // 
-            this.rTxtResumoImpor.Location = new System.Drawing.Point(739, 27);
+            this.rTxtResumoImpor.Location = new System.Drawing.Point(717, 46);
             this.rTxtResumoImpor.Name = "rTxtResumoImpor";
             this.rTxtResumoImpor.Size = new System.Drawing.Size(188, 96);
-            this.rTxtResumoImpor.TabIndex = 3;
+            this.rTxtResumoImpor.TabIndex = 5;
             this.rTxtResumoImpor.Text = "";
+            // 
+            // rTxtResulImport
+            // 
+            this.rTxtResulImport.Location = new System.Drawing.Point(15, 73);
+            this.rTxtResulImport.Name = "rTxtResulImport";
+            this.rTxtResulImport.Size = new System.Drawing.Size(667, 330);
+            this.rTxtResulImport.TabIndex = 4;
+            this.rTxtResulImport.Text = "";
+            // 
+            // rTxtQuadranteLinha
+            // 
+            this.rTxtQuadranteLinha.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtQuadranteLinha.Location = new System.Drawing.Point(440, 234);
+            this.rTxtQuadranteLinha.Name = "rTxtQuadranteLinha";
+            this.rTxtQuadranteLinha.Size = new System.Drawing.Size(229, 139);
+            this.rTxtQuadranteLinha.TabIndex = 13;
+            this.rTxtQuadranteLinha.Text = "";
+            // 
+            // rTxtQuadranteColuna
+            // 
+            this.rTxtQuadranteColuna.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtQuadranteColuna.Location = new System.Drawing.Point(688, 234);
+            this.rTxtQuadranteColuna.Name = "rTxtQuadranteColuna";
+            this.rTxtQuadranteColuna.Size = new System.Drawing.Size(229, 139);
+            this.rTxtQuadranteColuna.TabIndex = 14;
+            this.rTxtQuadranteColuna.Text = "";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label28.Location = new System.Drawing.Point(440, 210);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(137, 21);
+            this.label28.TabIndex = 15;
+            this.label28.Text = "Quadrante Linha";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label29.Location = new System.Drawing.Point(688, 210);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(149, 21);
+            this.label29.TabIndex = 16;
+            this.label29.Text = "Quadrante Coluna";
             // 
             // Form1
             // 
@@ -647,8 +844,13 @@ namespace Gerador
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.Analisador.ResumeLayout(false);
-            this.Gerador.ResumeLayout(false);
+            this.tpAnalisador.ResumeLayout(false);
+            this.tpAnalisador.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.tpGerador.ResumeLayout(false);
+            this.tpResultadosImport.ResumeLayout(false);
+            this.tpResultadosImport.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -701,12 +903,29 @@ namespace Gerador
         private System.Windows.Forms.TextBox txtMatriz;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage Gerador;
-        private System.Windows.Forms.TabPage Analisador;
-        private System.Windows.Forms.RichTextBox rTxtResulImport;
+        private System.Windows.Forms.TabPage tpGerador;
+        private System.Windows.Forms.TabPage tpAnalisador;
+        private System.Windows.Forms.Button btnAnalisar;
+        private System.Windows.Forms.RichTextBox rTxtNumMaisSorteados;
+        private System.Windows.Forms.TextBox txtQtConcAnalisar;
+        private System.Windows.Forms.TabPage tpResultadosImport;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button btnImporta;
-        private System.Windows.Forms.Button btnClearImp;
         private System.Windows.Forms.RichTextBox rTxtResumoImpor;
+        private System.Windows.Forms.RichTextBox rTxtResulImport;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox txtNomeArquivo;
+        private System.Windows.Forms.RichTextBox rTxtQtdPares;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button btnClearImp;
+        private System.Windows.Forms.RichTextBox rTxtSomaDezenas;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.RichTextBox rTxtQuadranteColuna;
+        private System.Windows.Forms.RichTextBox rTxtQuadranteLinha;
+        private System.Windows.Forms.Label label29;
     }
 }
 

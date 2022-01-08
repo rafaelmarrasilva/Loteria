@@ -10,11 +10,11 @@ namespace Loteria.Entities
     public static class Regras
     {
 
-        public static (List<Resultado>, string) CarregarResultados()
+        public static (List<Resultado>, string) CarregarResultados(string nomeArquivo)
         {
             List<Resultado> result = new List<Resultado>();
             int resultNaoImpor = 0;
-            foreach (var linhas in File.ReadAllLines("resultados.txt"))
+            foreach (var linhas in File.ReadAllLines(nomeArquivo))
             {
                 Resultado resultado = new Resultado();
                 string[] vs = linhas.ToString().Split(',');

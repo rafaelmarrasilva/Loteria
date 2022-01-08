@@ -157,7 +157,7 @@ namespace Gerador
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnClear_Click(null, null);
             }
         }
@@ -257,30 +257,6 @@ namespace Gerador
 
         private void btnImporta_Click(object sender, EventArgs e)
         {
-            btnImporta.Enabled = false;
-            rTxtResulImport.Clear();
-            rTxtResumoImpor.Clear();
-            rTxtResulImport.ReadOnly = true;
-            rTxtResumoImpor.ReadOnly = true;
-
-            (var result, string resumoImport) = Regras.CarregarResultados();
-            resultImporta = result;
-
-            foreach (var item in resultImporta.Where(c => c.Concurso >= resultImporta.Max(w => w.Concurso) - 3).OrderByDescending(s => s.Concurso))
-            {
-                string Corpo = item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy")+ " - ";
-                string Itens = null;
-                foreach (var num in item.Numeros)
-                {
-                    Itens += num.ToString().PadLeft(2,'0') + " - ";
-                }
-                rTxtResulImport.Text += Corpo + Itens.Substring(0,Itens.Length-3) + "\r\n";
-            }
-
-            string[] resultadoImportacao = resumoImport.Split(',');
-            rTxtResumoImpor.Text += "Linhas Importada: " + resultadoImportacao[0] + "\r\n";
-            rTxtResumoImpor.Text += "Linhas com Erro : " + resultadoImportacao[1] + "\r\n";
-            rTxtResumoImpor.Text += "Total de Linhas : " + (int.Parse(resultadoImportacao[0]) + int.Parse(resultadoImportacao[1])).ToString();
         }
 
         private void Analisador_Click(object sender, EventArgs e)
@@ -289,6 +265,132 @@ namespace Gerador
         }
 
         private void btnClearImp_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnAnalisar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                rTxtNumMaisSorteados.Clear();
+                rTxtQtdPares.Clear();
+                rTxtSomaDezenas.Clear();
+                rTxtQuadranteLinha.Clear();
+                rTxtQuadranteColuna.Clear();
+
+                if (resultImporta.Count() == 0)
+                    throw new InvalidProgramException("Os resultados não foram importados.\r\nFavor importar.");
+
+                if (!(int.TryParse(txtQtConcAnalisar.Text, out int vTxtQtConcAnalisar)))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                var dictNumMaisSorteados = Estatisticas.NumMaisSorteados(resultImporta, vTxtQtConcAnalisar);
+
+                foreach (KeyValuePair<int, int> item in dictNumMaisSorteados)
+                {
+                    var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
+                    if (String.IsNullOrEmpty(rTxtNumMaisSorteados.Text))
+                        rTxtNumMaisSorteados.Text += "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                    else
+                        rTxtNumMaisSorteados.Text += "\r\n" + "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                }
+
+                var dictQtdPares = Estatisticas.QuantPares(resultImporta, vTxtQtConcAnalisar);
+                foreach (KeyValuePair<int,int> item in dictQtdPares)
+                {
+                    var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
+                    if (String.IsNullOrEmpty(rTxtQtdPares.Text))
+                        rTxtQtdPares.Text += "Qtd Par " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                    else
+                        rTxtQtdPares.Text += "\r\n" + "Qtd Par " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                }
+
+                var dictSomaDezenas = Estatisticas.SomaDezenas(resultImporta, vTxtQtConcAnalisar);
+                foreach (KeyValuePair<string, int> item in dictSomaDezenas)
+                {
+                    var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
+                    if (String.IsNullOrEmpty(rTxtSomaDezenas.Text))
+                        rTxtSomaDezenas.Text += item.Key + " - " + item.Value + " - " + valPercent + "%";
+                    else
+                        rTxtSomaDezenas.Text += "\r\n" + item.Key + " - " + item.Value + " - " + valPercent + "%";
+                }
+
+                var dictQuadranteLinha = Estatisticas.QuadrantesLinha(resultImporta, vTxtQtConcAnalisar);
+                int contQL = 1;
+                while (contQL <= 5)
+                {
+                    foreach (KeyValuePair<string, int> item in dictQuadranteLinha.Where(p => p.Key.Contains("QL" + contQL)).OrderByDescending(s => s.Value))
+                    {
+                        if (String.IsNullOrEmpty(rTxtQuadranteLinha.Text))
+                            rTxtQuadranteLinha.Text += item.Key + " - " + item.Value;
+                        else
+                            rTxtQuadranteLinha.Text += "\r\n" + item.Key + " - " + item.Value;
+                    }
+                    contQL++;
+                }
+
+                var dictQuadranteColuna = Estatisticas.QuadrantesColuna(resultImporta, vTxtQtConcAnalisar);
+                int contQC = 1;
+                while (contQC <= 5)
+                {
+                    foreach (KeyValuePair<string, int> item in dictQuadranteColuna.Where(p => p.Key.Contains("QC" + contQC)).OrderByDescending(s => s.Value))
+                    {
+                        if (String.IsNullOrEmpty(rTxtQuadranteColuna.Text))
+                            rTxtQuadranteColuna.Text += item.Key + " - " + item.Value;
+                        else
+                            rTxtQuadranteColuna.Text += "\r\n" + item.Key + " - " + item.Value;
+                    }
+                    contQC++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnImporta_Click_1(object sender, EventArgs e)
+        {
+            btnImporta.Enabled = false;
+            rTxtResulImport.Clear();
+            rTxtResumoImpor.Clear();
+            rTxtResulImport.ReadOnly = true;
+            rTxtResumoImpor.ReadOnly = true;
+
+            try
+            {
+                if (String.IsNullOrEmpty(txtNomeArquivo.Text))
+                    throw new InvalidProgramException("É obrigatórios informar o nome do arquivo.");
+
+                (var result, string resumoImport) = Regras.CarregarResultados(txtNomeArquivo.Text);
+                resultImporta = result;
+
+                foreach (var item in resultImporta.Where(c => c.Concurso >= resultImporta.Max(w => w.Concurso) - 30).OrderByDescending(s => s.Concurso))
+                {
+                    string Corpo = item.Concurso + " - " + item.Data.ToString("dd/MM/yyyy") + " - ";
+                    string Itens = null;
+                    foreach (var num in item.Numeros)
+                    {
+                        Itens += num.ToString().PadLeft(2, '0') + " - ";
+                    }
+                    rTxtResulImport.Text += Corpo + Itens.Substring(0, Itens.Length - 3) + "\r\n";
+                }
+
+                string[] resultadoImportacao = resumoImport.Split(',');
+                rTxtResumoImpor.Text += "Linhas Importada: " + resultadoImportacao[0] + "\r\n";
+                rTxtResumoImpor.Text += "Linhas com Erro : " + resultadoImportacao[1] + "\r\n";
+                rTxtResumoImpor.Text += "Total de Linhas : " + (int.Parse(resultadoImportacao[0]) + int.Parse(resultadoImportacao[1])).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            
+        }
+
+        private void btnClearImp_Click_1(object sender, EventArgs e)
         {
             resultImporta.Clear();
             rTxtResulImport.Clear();

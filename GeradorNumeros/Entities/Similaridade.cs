@@ -18,7 +18,7 @@ namespace Loteria.Entities
 
                 listaTemp.IntersectWith(listaJogo);
 
-                if (listaTemp.Count >= 14)
+                if (listaTemp.Count >= qtdSimilar)
                 {
                     result = false;
                     break;
