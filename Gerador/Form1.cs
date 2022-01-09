@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -266,7 +267,7 @@ namespace Gerador
 
         private void btnClearImp_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnAnalisar_Click(object sender, EventArgs e)
@@ -297,7 +298,7 @@ namespace Gerador
                 }
 
                 var dictQtdPares = Estatisticas.QuantPares(resultImporta, vTxtQtConcAnalisar);
-                foreach (KeyValuePair<int,int> item in dictQtdPares)
+                foreach (KeyValuePair<int, int> item in dictQtdPares)
                 {
                     var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
                     if (String.IsNullOrEmpty(rTxtQtdPares.Text))
@@ -322,12 +323,14 @@ namespace Gerador
                 {
                     foreach (KeyValuePair<string, int> item in dictQuadranteLinha.Where(p => p.Key.Contains("QL" + contQL)).OrderByDescending(s => s.Value))
                     {
+                        var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
                         if (String.IsNullOrEmpty(rTxtQuadranteLinha.Text))
-                            rTxtQuadranteLinha.Text += item.Key + " - " + item.Value;
+                            rTxtQuadranteLinha.Text += item.Key + " - " + item.Value + " - " + valPercent + "%";
                         else
-                            rTxtQuadranteLinha.Text += "\r\n" + item.Key + " - " + item.Value;
+                            rTxtQuadranteLinha.Text += "\r\n" + item.Key + " - " + item.Value + " - " + valPercent + "%";
                     }
                     contQL++;
+                    rTxtQuadranteLinha.Text += "\r\n---------------";
                 }
 
                 var dictQuadranteColuna = Estatisticas.QuadrantesColuna(resultImporta, vTxtQtConcAnalisar);
@@ -336,13 +339,16 @@ namespace Gerador
                 {
                     foreach (KeyValuePair<string, int> item in dictQuadranteColuna.Where(p => p.Key.Contains("QC" + contQC)).OrderByDescending(s => s.Value))
                     {
+                        var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtConcAnalisar) * 100.0);
                         if (String.IsNullOrEmpty(rTxtQuadranteColuna.Text))
-                            rTxtQuadranteColuna.Text += item.Key + " - " + item.Value;
+                            rTxtQuadranteColuna.Text += item.Key + " - " + item.Value + " - " + valPercent + "%";
                         else
-                            rTxtQuadranteColuna.Text += "\r\n" + item.Key + " - " + item.Value;
+                            rTxtQuadranteColuna.Text += "\r\n" + item.Key + " - " + item.Value + " - " + valPercent + "%";
                     }
                     contQC++;
+                    rTxtQuadranteColuna.Text += "\r\n---------------";
                 }
+
             }
             catch (Exception ex)
             {
@@ -387,7 +393,7 @@ namespace Gerador
                 MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            
+
         }
 
         private void btnClearImp_Click_1(object sender, EventArgs e)
@@ -396,6 +402,55 @@ namespace Gerador
             rTxtResulImport.Clear();
             rTxtResumoImpor.Clear();
             btnImporta.Enabled = true;
+        }
+
+        private void btnConferir_Click(object sender, EventArgs e)
+        {
+            rTxtResultadosConferidos.Clear();
+            try
+            {
+                if (String.IsNullOrEmpty(txtResultConcurso.Text))
+                    throw new InvalidProgramException("Favor preencher o resultado do concurso.");
+
+                if (String.IsNullOrEmpty(txtArqJogos.Text))
+                    throw new InvalidProgramException("Favor preencher o caminho dos jogos para validação.");
+
+                List<int> resultadoConcuros = new List<int>();
+                foreach (var item in txtResultConcurso.Text.Split(','))
+                {
+                    if (int.TryParse(item, out int value))
+                        resultadoConcuros.Add(value);
+                    else
+                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                }
+                if (resultadoConcuros.Count() != 15)
+                    throw new InvalidProgramException("O resultado deve ter 15 números e não " + resultadoConcuros.Count());
+
+                var listaConferida = Regras.Conferencia(resultadoConcuros, txtArqJogos.Text);
+                foreach (var resultado in listaConferida.OrderByDescending(p => p.Acertos))
+                {
+                    rTxtResultadosConferidos.Text += "Você acertou " + resultado.Acertos.ToString().PadLeft(2, '0') + " - (";
+                    string a = null;
+                    foreach (var item in resultado.Jogo)
+                    {
+                        a += item.ToString().PadLeft(2, '0') + " - ";
+                    }
+                    rTxtResultadosConferidos.Text += a.Substring(0, a.Length - 3) + ")\r\n";
+                }
+                MessageBox.Show("Jogos validados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
+
+        private void btnClearConferencia_Click(object sender, EventArgs e)
+        {
+            rTxtResultadosConferidos.Clear();
+            txtResultConcurso.Clear();
+            txtArqJogos.Clear();
         }
     }
 }

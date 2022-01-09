@@ -9,7 +9,6 @@ namespace Loteria.Entities
 {
     public static class Regras
     {
-
         public static (List<Resultado>, string) CarregarResultados(string nomeArquivo)
         {
             List<Resultado> result = new List<Resultado>();
@@ -39,6 +38,32 @@ namespace Loteria.Entities
             string qtdResultImport = result.Count() + "," + resultNaoImpor;
 
             return (result, qtdResultImport) ;
+        }
+
+        public static List<ResultadosConferidos> Conferencia(List<int> resultadoConcuro, string caminho)
+        {
+            List<ResultadosConferidos> listaConferida = new List<ResultadosConferidos>();
+
+            foreach (var linha in File.ReadAllLines(caminho))
+            {
+                List<int> l = new List<int>();
+                foreach (var num in linha.Split(','))
+                {
+                    if (int.TryParse(num, out int value))
+                        l.Add(value);
+                    else
+                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                }
+                if (l.Count() < 15)
+                    throw new InvalidProgramException("O resultado deve ter 15 números e não " + l.Count());
+
+                var hashResultadoConcurso = new HashSet<int>(resultadoConcuro);
+                var hashJogo = new HashSet<int>(l);
+                hashJogo.IntersectWith(hashResultadoConcurso);
+
+                listaConferida.Add(new ResultadosConferidos(hashJogo.Count(), l));
+            }
+            return listaConferida;
         }
 
         public static bool Pares(List<int> lista, List<int> parametros)
