@@ -83,6 +83,8 @@ namespace Gerador
             this.rTxtResumoImpor = new System.Windows.Forms.RichTextBox();
             this.rTxtResulImport = new System.Windows.Forms.RichTextBox();
             this.tpAnalisador = new System.Windows.Forms.TabPage();
+            this.label33 = new System.Windows.Forms.Label();
+            this.rTxtNumAtrasado = new System.Windows.Forms.RichTextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.rTxtQuadranteColuna = new System.Windows.Forms.RichTextBox();
@@ -97,8 +99,12 @@ namespace Gerador
             this.txtQtConcAnalisar = new System.Windows.Forms.TextBox();
             this.btnAnalisar = new System.Windows.Forms.Button();
             this.rTxtNumMaisSorteados = new System.Windows.Forms.RichTextBox();
+            this.tpMapaResultados = new System.Windows.Forms.TabPage();
+            this.label34 = new System.Windows.Forms.Label();
+            this.rTxtMapaResultados = new System.Windows.Forms.RichTextBox();
             this.tpGerador = new System.Windows.Forms.TabPage();
             this.tpConferencia = new System.Windows.Forms.TabPage();
+            this.btnClearConferencia = new System.Windows.Forms.Button();
             this.rTxtResultadosConferidos = new System.Windows.Forms.RichTextBox();
             this.btnConferir = new System.Windows.Forms.Button();
             this.txtArqJogos = new System.Windows.Forms.TextBox();
@@ -106,13 +112,13 @@ namespace Gerador
             this.label31 = new System.Windows.Forms.Label();
             this.txtResultConcurso = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.btnClearConferencia = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpImportarResultasdos.SuspendLayout();
             this.tpAnalisador.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tpMapaResultados.SuspendLayout();
             this.tpGerador.SuspendLayout();
             this.tpConferencia.SuspendLayout();
             this.SuspendLayout();
@@ -589,6 +595,7 @@ namespace Gerador
             // 
             this.tabControl1.Controls.Add(this.tpImportarResultasdos);
             this.tabControl1.Controls.Add(this.tpAnalisador);
+            this.tabControl1.Controls.Add(this.tpMapaResultados);
             this.tabControl1.Controls.Add(this.tpGerador);
             this.tabControl1.Controls.Add(this.tpConferencia);
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
@@ -667,6 +674,8 @@ namespace Gerador
             // 
             // tpAnalisador
             // 
+            this.tpAnalisador.Controls.Add(this.label33);
+            this.tpAnalisador.Controls.Add(this.rTxtNumAtrasado);
             this.tpAnalisador.Controls.Add(this.label29);
             this.tpAnalisador.Controls.Add(this.label28);
             this.tpAnalisador.Controls.Add(this.rTxtQuadranteColuna);
@@ -686,6 +695,25 @@ namespace Gerador
             this.tpAnalisador.Text = "Analisador";
             this.tpAnalisador.UseVisualStyleBackColor = true;
             this.tpAnalisador.Click += new System.EventHandler(this.Analisador_Click);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label33.Location = new System.Drawing.Point(655, 9);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(159, 21);
+            this.label33.TabIndex = 18;
+            this.label33.Text = "Números Atrasados";
+            // 
+            // rTxtNumAtrasado
+            // 
+            this.rTxtNumAtrasado.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtNumAtrasado.Location = new System.Drawing.Point(655, 33);
+            this.rTxtNumAtrasado.Name = "rTxtNumAtrasado";
+            this.rTxtNumAtrasado.Size = new System.Drawing.Size(186, 240);
+            this.rTxtNumAtrasado.TabIndex = 17;
+            this.rTxtNumAtrasado.Text = "";
             // 
             // label29
             // 
@@ -825,6 +853,36 @@ namespace Gerador
             this.rTxtNumMaisSorteados.TabIndex = 5;
             this.rTxtNumMaisSorteados.Text = "";
             // 
+            // tpMapaResultados
+            // 
+            this.tpMapaResultados.Controls.Add(this.label34);
+            this.tpMapaResultados.Controls.Add(this.rTxtMapaResultados);
+            this.tpMapaResultados.Location = new System.Drawing.Point(4, 30);
+            this.tpMapaResultados.Name = "tpMapaResultados";
+            this.tpMapaResultados.Size = new System.Drawing.Size(959, 528);
+            this.tpMapaResultados.TabIndex = 4;
+            this.tpMapaResultados.Text = "Mapa Resultados";
+            this.tpMapaResultados.UseVisualStyleBackColor = true;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label34.Location = new System.Drawing.Point(21, 29);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(399, 21);
+            this.label34.TabIndex = 1;
+            this.label34.Text = "Mapa de Resultados de até os últimos 30 concursos";
+            // 
+            // rTxtMapaResultados
+            // 
+            this.rTxtMapaResultados.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rTxtMapaResultados.Location = new System.Drawing.Point(21, 61);
+            this.rTxtMapaResultados.Name = "rTxtMapaResultados";
+            this.rTxtMapaResultados.Size = new System.Drawing.Size(899, 447);
+            this.rTxtMapaResultados.TabIndex = 0;
+            this.rTxtMapaResultados.Text = "";
+            // 
             // tpGerador
             // 
             this.tpGerador.Controls.Add(this.groupBox2);
@@ -856,6 +914,16 @@ namespace Gerador
             this.tpConferencia.TabIndex = 3;
             this.tpConferencia.Text = "Conferência";
             this.tpConferencia.UseVisualStyleBackColor = true;
+            // 
+            // btnClearConferencia
+            // 
+            this.btnClearConferencia.Location = new System.Drawing.Point(867, 38);
+            this.btnClearConferencia.Name = "btnClearConferencia";
+            this.btnClearConferencia.Size = new System.Drawing.Size(75, 39);
+            this.btnClearConferencia.TabIndex = 7;
+            this.btnClearConferencia.Text = "Clear";
+            this.btnClearConferencia.UseVisualStyleBackColor = true;
+            this.btnClearConferencia.Click += new System.EventHandler(this.btnClearConferencia_Click);
             // 
             // rTxtResultadosConferidos
             // 
@@ -918,16 +986,6 @@ namespace Gerador
             this.label30.TabIndex = 0;
             this.label30.Text = "Informe o resultado do Concurso:";
             // 
-            // btnClearConferencia
-            // 
-            this.btnClearConferencia.Location = new System.Drawing.Point(867, 38);
-            this.btnClearConferencia.Name = "btnClearConferencia";
-            this.btnClearConferencia.Size = new System.Drawing.Size(75, 39);
-            this.btnClearConferencia.TabIndex = 7;
-            this.btnClearConferencia.Text = "Clear";
-            this.btnClearConferencia.UseVisualStyleBackColor = true;
-            this.btnClearConferencia.Click += new System.EventHandler(this.btnClearConferencia_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -949,6 +1007,8 @@ namespace Gerador
             this.tpAnalisador.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.tpMapaResultados.ResumeLayout(false);
+            this.tpMapaResultados.PerformLayout();
             this.tpGerador.ResumeLayout(false);
             this.tpConferencia.ResumeLayout(false);
             this.tpConferencia.PerformLayout();
@@ -1036,6 +1096,11 @@ namespace Gerador
         private System.Windows.Forms.Button btnConferir;
         private System.Windows.Forms.RichTextBox rTxtResultadosConferidos;
         private System.Windows.Forms.Button btnClearConferencia;
+        private System.Windows.Forms.RichTextBox rTxtNumAtrasado;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TabPage tpMapaResultados;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.RichTextBox rTxtMapaResultados;
     }
 }
 

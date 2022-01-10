@@ -37,7 +37,7 @@ namespace Loteria.Entities
             }
             string qtdResultImport = result.Count() + "," + resultNaoImpor;
 
-            return (result, qtdResultImport) ;
+            return (result, qtdResultImport);
         }
 
         public static List<ResultadosConferidos> Conferencia(List<int> resultadoConcuro, string caminho)

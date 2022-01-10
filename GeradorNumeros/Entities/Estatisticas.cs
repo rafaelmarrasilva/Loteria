@@ -214,5 +214,73 @@ namespace Loteria.Entities
             }
             return dicQC;
         }
+
+        public static Dictionary<int, int> NumerosAtrasados(List<Resultado> resultados)
+        {
+            Dictionary<int, int> dictNumAtras = new Dictionary<int, int>();
+            for (int i = 1; i < 26; i++)
+            {
+                int conta = 0;
+                foreach (var resultado in resultados.OrderByDescending(s => s.Concurso))
+                {
+                    if (!resultado.Numeros.Contains(i))
+                        conta++;
+                    else
+                        break;
+                }
+                if (!dictNumAtras.TryGetValue(i, out int values))
+                    dictNumAtras.Add(i, conta);
+            }
+            var dictSort = dictNumAtras.OrderByDescending(p => p.Value).ToDictionary(p => p.Key, p => p.Value);
+            return dictSort;
+        }
+
+        public static List<string> MapaResultado(List<Resultado> resultados, int qtdConcurso)
+        {
+            List<string> vs = new List<string>();
+            foreach (Resultado resultado in resultados.Where(w => w.Concurso > resultados.Max(m => m.Concurso) - qtdConcurso).OrderByDescending(s => s.Concurso))
+            {
+                string result = resultado.Concurso.ToString().PadLeft(4, '0') + " - ";
+                int k = 1;
+                while (k < 26)
+                {
+                    if (k <= resultado.Numeros.Count)
+                    {
+                        foreach (var item in resultado.Numeros)
+                        {
+
+                            if (item == k)
+                            {
+                                result += item.ToString().PadLeft(2, '0') + " - ";
+                                k++;
+                            }
+                            else
+                            {
+                                while (k < item)
+                                {
+                                    result += "XX - ";
+                                    k++;
+                                }
+                                result += item.ToString().PadLeft(2, '0') + " - ";
+                                k++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        while (k < 26)
+                        {
+                            result += "XX - ";
+                            k++;
+                        }
+                    }
+                }
+                result = result.Substring(0, result.Length - 3);
+                vs.Add(result);
+            }
+            return vs;
+        }
+
+
     }
 }

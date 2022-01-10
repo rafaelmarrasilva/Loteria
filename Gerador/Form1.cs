@@ -279,6 +279,8 @@ namespace Gerador
                 rTxtSomaDezenas.Clear();
                 rTxtQuadranteLinha.Clear();
                 rTxtQuadranteColuna.Clear();
+                rTxtNumAtrasado.Clear();
+                rTxtMapaResultados.Clear();
 
                 if (resultImporta.Count() == 0)
                     throw new InvalidProgramException("Os resultados não foram importados.\r\nFavor importar.");
@@ -347,6 +349,27 @@ namespace Gerador
                     }
                     contQC++;
                     rTxtQuadranteColuna.Text += "\r\n---------------";
+                }
+
+                var dictNumAtrasados = Estatisticas.NumerosAtrasados(resultImporta);
+                foreach (KeyValuePair<int,int> item in dictNumAtrasados)
+                {
+                    if (String.IsNullOrEmpty(rTxtNumAtrasado.Text))
+                        rTxtNumAtrasado.Text += "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value;
+                    else
+                        rTxtNumAtrasado.Text += "\r\n" + "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value;
+                }
+
+                int qtAnalise = 0;
+                if (int.Parse(txtQtConcAnalisar.Text) > 30)
+                    qtAnalise = 30;
+                else
+                    qtAnalise = int.Parse(txtQtConcAnalisar.Text);
+
+                var resultMapaResultados = Estatisticas.MapaResultado(resultImporta, qtAnalise);
+                foreach (var item in resultMapaResultados)
+                {
+                    rTxtMapaResultados.Text += item + "\r\n";
                 }
 
             }
@@ -443,7 +466,6 @@ namespace Gerador
             {
                 MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void btnClearConferencia_Click(object sender, EventArgs e)
