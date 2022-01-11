@@ -153,6 +153,7 @@ namespace Gerador
                 rTxtResult.ReadOnly = true;
 
                 btnGerar.Enabled = false;
+                btnJogoPote.Enabled = false;
                 MessageBox.Show("Jogos gerados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -179,6 +180,7 @@ namespace Gerador
             txtSomaDezenas.Enabled = true;
             txtMatriz.Enabled = true;
             btnGerar.Enabled = true;
+            btnJogoPote.Enabled = true;
 
             chkQC.Enabled = true;
             chkQC.Checked = false;
@@ -530,6 +532,46 @@ namespace Gerador
                     MessageBox.Show("Arquivo localizado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void btnJogoPote_Click(object sender, EventArgs e)
+        {
+
+            MessageBox.Show("Todas as regras serão ignoradas e será utilizado um sistema de Potes.\r\n" +
+                            "Pote1 contém 15 números.\r\n" + 
+                            "Pote2 contém 10 números.\r\n" +
+                            "A cada jogo gerado os potes são alimentados com novos números basedos nos mais e menos sorteados.\r\n" +
+                            "Iniciando o Pote1 com as 15 mais dos últimos 7 jogos e Pote2 com os 10 menos.\r\n" + 
+                            "Demais jogos os potes são abastecidos com múltiplos de 7.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+            Parametros parametros = new Parametros();
+
+            if (String.IsNullOrEmpty(txtQtJogos.Text))
+                throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
+
+            int vTxtQtJogos;
+            if (!int.TryParse(txtQtJogos.Text, out vTxtQtJogos))
+                throw new InvalidProgramException("Só é permitido digitar números.");
+
+            var result = GerarJogo.GerarJogosPote(vTxtQtJogos, parametros, resultImporta);
+
+            foreach (var jogos in result)
+            {
+                string numJogo = null;
+                foreach (var num in jogos.ListaNumeros)
+                {
+                    numJogo += num.ToString().PadLeft(2, '0') + " - ";
+                }
+                numJogo = numJogo.Substring(0, numJogo.Length - 3) + "\r\n";
+                rTxtResult.Text += numJogo;
+            }
+            rTxtResult.ReadOnly = true;
+
+            btnGerar.Enabled = false;
+            btnJogoPote.Enabled = false;
+            MessageBox.Show("Jogos gerados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
         }
     }
 }

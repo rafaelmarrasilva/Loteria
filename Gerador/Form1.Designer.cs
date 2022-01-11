@@ -104,6 +104,7 @@ namespace Gerador
             this.label34 = new System.Windows.Forms.Label();
             this.rTxtMapaResultados = new System.Windows.Forms.RichTextBox();
             this.tpGerador = new System.Windows.Forms.TabPage();
+            this.btnJogoPote = new System.Windows.Forms.Button();
             this.tpConferencia = new System.Windows.Forms.TabPage();
             this.rTxtResultadoConferidosCond = new System.Windows.Forms.RichTextBox();
             this.btnSelArqJogos = new System.Windows.Forms.Button();
@@ -195,7 +196,7 @@ namespace Gerador
             this.btnGerar.Location = new System.Drawing.Point(417, 458);
             this.btnGerar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGerar.Name = "btnGerar";
-            this.btnGerar.Size = new System.Drawing.Size(96, 51);
+            this.btnGerar.Size = new System.Drawing.Size(117, 51);
             this.btnGerar.TabIndex = 6;
             this.btnGerar.Text = "Gerar";
             this.btnGerar.UseVisualStyleBackColor = true;
@@ -212,7 +213,7 @@ namespace Gerador
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(551, 458);
+            this.btnClear.Location = new System.Drawing.Point(839, 458);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(96, 51);
             this.btnClear.TabIndex = 7;
@@ -900,6 +901,7 @@ namespace Gerador
             // 
             // tpGerador
             // 
+            this.tpGerador.Controls.Add(this.btnJogoPote);
             this.tpGerador.Controls.Add(this.groupBox2);
             this.tpGerador.Controls.Add(this.btnGerar);
             this.tpGerador.Controls.Add(this.groupBox1);
@@ -912,6 +914,16 @@ namespace Gerador
             this.tpGerador.TabIndex = 0;
             this.tpGerador.Text = "Gerador";
             this.tpGerador.UseVisualStyleBackColor = true;
+            // 
+            // btnJogoPote
+            // 
+            this.btnJogoPote.Location = new System.Drawing.Point(561, 458);
+            this.btnJogoPote.Name = "btnJogoPote";
+            this.btnJogoPote.Size = new System.Drawing.Size(117, 51);
+            this.btnJogoPote.TabIndex = 42;
+            this.btnJogoPote.Text = "Gerar Potes";
+            this.btnJogoPote.UseVisualStyleBackColor = true;
+            this.btnJogoPote.Click += new System.EventHandler(this.btnJogoPote_Click);
             // 
             // tpConferencia
             // 
@@ -1141,6 +1153,7 @@ namespace Gerador
         private System.Windows.Forms.Button btnSelArqResult;
         private System.Windows.Forms.Button btnSelArqJogos;
         private System.Windows.Forms.RichTextBox rTxtResultadoConferidosCond;
+        private System.Windows.Forms.Button btnJogoPote;
     }
 }
 
