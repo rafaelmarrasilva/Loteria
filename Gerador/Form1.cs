@@ -20,7 +20,6 @@ namespace Gerador
         }
 
         List<Resultado> resultImporta = new List<Resultado>();
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -410,6 +409,8 @@ namespace Gerador
                 rTxtResumoImpor.Text += "Linhas Importada: " + resultadoImportacao[0] + "\r\n";
                 rTxtResumoImpor.Text += "Linhas com Erro : " + resultadoImportacao[1] + "\r\n";
                 rTxtResumoImpor.Text += "Total de Linhas : " + (int.Parse(resultadoImportacao[0]) + int.Parse(resultadoImportacao[1])).ToString();
+
+                MessageBox.Show("Arquivo Importado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -424,6 +425,7 @@ namespace Gerador
             resultImporta.Clear();
             rTxtResulImport.Clear();
             rTxtResumoImpor.Clear();
+            txtNomeArquivo.Clear();
             btnImporta.Enabled = true;
         }
 
@@ -460,6 +462,14 @@ namespace Gerador
                     }
                     rTxtResultadosConferidos.Text += a.Substring(0, a.Length - 3) + ")\r\n";
                 }
+
+                var groupListaConferida = listaConferida.GroupBy(p => p.Acertos).Select(group => new {Acertos = group.Key, Conta = group.Count()}).OrderByDescending(p => p.Acertos);
+
+                foreach (var item in groupListaConferida)
+                {
+                    rTxtResultadoConferidosCond.Text += item.Acertos + " acertos em " + item.Conta + " jogos\r\n";
+                }
+
                 MessageBox.Show("Jogos validados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -473,6 +483,53 @@ namespace Gerador
             rTxtResultadosConferidos.Clear();
             txtResultConcurso.Clear();
             txtArqJogos.Clear();
+            rTxtResultadoConferidosCond.Clear();
+        }
+
+        private void btnSelArqResult_Click(object sender, EventArgs e)
+        {
+            txtNomeArquivo.Clear();
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Multiselect = false;
+                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.CheckFileExists = true;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.ReadOnlyChecked = true;
+                openFileDialog.ShowReadOnly = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    txtNomeArquivo.Text = openFileDialog.FileName;
+                    MessageBox.Show("Arquivo localizado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void btnSelArqJogos_Click(object sender, EventArgs e)
+        {
+            txtArqJogos.Clear();
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Multiselect = false;
+                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.CheckFileExists = true;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.ReadOnlyChecked = true;
+                openFileDialog.ShowReadOnly = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    txtArqJogos.Text = openFileDialog.FileName;
+                    MessageBox.Show("Arquivo localizado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

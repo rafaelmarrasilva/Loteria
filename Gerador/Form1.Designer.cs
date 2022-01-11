@@ -76,6 +76,7 @@ namespace Gerador
             this.label21 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpImportarResultasdos = new System.Windows.Forms.TabPage();
+            this.btnSelArqResult = new System.Windows.Forms.Button();
             this.btnClearImp = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
             this.txtNomeArquivo = new System.Windows.Forms.TextBox();
@@ -104,6 +105,8 @@ namespace Gerador
             this.rTxtMapaResultados = new System.Windows.Forms.RichTextBox();
             this.tpGerador = new System.Windows.Forms.TabPage();
             this.tpConferencia = new System.Windows.Forms.TabPage();
+            this.rTxtResultadoConferidosCond = new System.Windows.Forms.RichTextBox();
+            this.btnSelArqJogos = new System.Windows.Forms.Button();
             this.btnClearConferencia = new System.Windows.Forms.Button();
             this.rTxtResultadosConferidos = new System.Windows.Forms.RichTextBox();
             this.btnConferir = new System.Windows.Forms.Button();
@@ -606,6 +609,7 @@ namespace Gerador
             // 
             // tpImportarResultasdos
             // 
+            this.tpImportarResultasdos.Controls.Add(this.btnSelArqResult);
             this.tpImportarResultasdos.Controls.Add(this.btnClearImp);
             this.tpImportarResultasdos.Controls.Add(this.label25);
             this.tpImportarResultasdos.Controls.Add(this.txtNomeArquivo);
@@ -619,10 +623,20 @@ namespace Gerador
             this.tpImportarResultasdos.Text = "Importar Resultados";
             this.tpImportarResultasdos.UseVisualStyleBackColor = true;
             // 
+            // btnSelArqResult
+            // 
+            this.btnSelArqResult.Location = new System.Drawing.Point(538, 49);
+            this.btnSelArqResult.Name = "btnSelArqResult";
+            this.btnSelArqResult.Size = new System.Drawing.Size(90, 29);
+            this.btnSelArqResult.TabIndex = 44;
+            this.btnSelArqResult.Text = "Selecione";
+            this.btnSelArqResult.UseVisualStyleBackColor = true;
+            this.btnSelArqResult.Click += new System.EventHandler(this.btnSelArqResult_Click);
+            // 
             // btnClearImp
             // 
             this.btnClearImp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnClearImp.Location = new System.Drawing.Point(155, 418);
+            this.btnClearImp.Location = new System.Drawing.Point(131, 460);
             this.btnClearImp.Name = "btnClearImp";
             this.btnClearImp.Size = new System.Drawing.Size(88, 45);
             this.btnClearImp.TabIndex = 43;
@@ -633,22 +647,23 @@ namespace Gerador
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(28, 29);
+            this.label25.Location = new System.Drawing.Point(28, 25);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(137, 21);
+            this.label25.Size = new System.Drawing.Size(157, 21);
             this.label25.TabIndex = 8;
-            this.label25.Text = "Nome do Arquivo:";
+            this.label25.Text = "Caminho do Arquivo:";
             // 
             // txtNomeArquivo
             // 
-            this.txtNomeArquivo.Location = new System.Drawing.Point(171, 21);
+            this.txtNomeArquivo.Location = new System.Drawing.Point(28, 49);
             this.txtNomeArquivo.Name = "txtNomeArquivo";
-            this.txtNomeArquivo.Size = new System.Drawing.Size(257, 29);
+            this.txtNomeArquivo.ReadOnly = true;
+            this.txtNomeArquivo.Size = new System.Drawing.Size(504, 29);
             this.txtNomeArquivo.TabIndex = 7;
             // 
             // btnImporta
             // 
-            this.btnImporta.Location = new System.Drawing.Point(15, 418);
+            this.btnImporta.Location = new System.Drawing.Point(15, 460);
             this.btnImporta.Name = "btnImporta";
             this.btnImporta.Size = new System.Drawing.Size(85, 45);
             this.btnImporta.TabIndex = 6;
@@ -658,7 +673,7 @@ namespace Gerador
             // 
             // rTxtResumoImpor
             // 
-            this.rTxtResumoImpor.Location = new System.Drawing.Point(712, 73);
+            this.rTxtResumoImpor.Location = new System.Drawing.Point(704, 114);
             this.rTxtResumoImpor.Name = "rTxtResumoImpor";
             this.rTxtResumoImpor.Size = new System.Drawing.Size(188, 96);
             this.rTxtResumoImpor.TabIndex = 5;
@@ -666,7 +681,7 @@ namespace Gerador
             // 
             // rTxtResulImport
             // 
-            this.rTxtResulImport.Location = new System.Drawing.Point(15, 73);
+            this.rTxtResulImport.Location = new System.Drawing.Point(15, 114);
             this.rTxtResulImport.Name = "rTxtResulImport";
             this.rTxtResulImport.Size = new System.Drawing.Size(667, 330);
             this.rTxtResulImport.TabIndex = 4;
@@ -900,6 +915,8 @@ namespace Gerador
             // 
             // tpConferencia
             // 
+            this.tpConferencia.Controls.Add(this.rTxtResultadoConferidosCond);
+            this.tpConferencia.Controls.Add(this.btnSelArqJogos);
             this.tpConferencia.Controls.Add(this.btnClearConferencia);
             this.tpConferencia.Controls.Add(this.rTxtResultadosConferidos);
             this.tpConferencia.Controls.Add(this.btnConferir);
@@ -915,9 +932,28 @@ namespace Gerador
             this.tpConferencia.Text = "Conferência";
             this.tpConferencia.UseVisualStyleBackColor = true;
             // 
+            // rTxtResultadoConferidosCond
+            // 
+            this.rTxtResultadoConferidosCond.Location = new System.Drawing.Point(726, 176);
+            this.rTxtResultadoConferidosCond.Name = "rTxtResultadoConferidosCond";
+            this.rTxtResultadoConferidosCond.Size = new System.Drawing.Size(198, 216);
+            this.rTxtResultadoConferidosCond.TabIndex = 9;
+            this.rTxtResultadoConferidosCond.Text = "";
+            // 
+            // btnSelArqJogos
+            // 
+            this.btnSelArqJogos.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnSelArqJogos.Location = new System.Drawing.Point(556, 124);
+            this.btnSelArqJogos.Name = "btnSelArqJogos";
+            this.btnSelArqJogos.Size = new System.Drawing.Size(97, 29);
+            this.btnSelArqJogos.TabIndex = 8;
+            this.btnSelArqJogos.Text = "Selecionar";
+            this.btnSelArqJogos.UseVisualStyleBackColor = true;
+            this.btnSelArqJogos.Click += new System.EventHandler(this.btnSelArqJogos_Click);
+            // 
             // btnClearConferencia
             // 
-            this.btnClearConferencia.Location = new System.Drawing.Point(867, 38);
+            this.btnClearConferencia.Location = new System.Drawing.Point(849, 444);
             this.btnClearConferencia.Name = "btnClearConferencia";
             this.btnClearConferencia.Size = new System.Drawing.Size(75, 39);
             this.btnClearConferencia.TabIndex = 7;
@@ -927,15 +963,15 @@ namespace Gerador
             // 
             // rTxtResultadosConferidos
             // 
-            this.rTxtResultadosConferidos.Location = new System.Drawing.Point(16, 121);
+            this.rTxtResultadosConferidos.Location = new System.Drawing.Point(16, 176);
             this.rTxtResultadosConferidos.Name = "rTxtResultadosConferidos";
-            this.rTxtResultadosConferidos.Size = new System.Drawing.Size(725, 362);
+            this.rTxtResultadosConferidos.Size = new System.Drawing.Size(694, 307);
             this.rTxtResultadosConferidos.TabIndex = 6;
             this.rTxtResultadosConferidos.Text = "";
             // 
             // btnConferir
             // 
-            this.btnConferir.Location = new System.Drawing.Point(762, 38);
+            this.btnConferir.Location = new System.Drawing.Point(726, 444);
             this.btnConferir.Name = "btnConferir";
             this.btnConferir.Size = new System.Drawing.Size(90, 39);
             this.btnConferir.TabIndex = 5;
@@ -945,15 +981,16 @@ namespace Gerador
             // 
             // txtArqJogos
             // 
-            this.txtArqJogos.Location = new System.Drawing.Point(441, 48);
+            this.txtArqJogos.Location = new System.Drawing.Point(16, 124);
             this.txtArqJogos.Name = "txtArqJogos";
-            this.txtArqJogos.Size = new System.Drawing.Size(300, 29);
+            this.txtArqJogos.ReadOnly = true;
+            this.txtArqJogos.Size = new System.Drawing.Size(533, 29);
             this.txtArqJogos.TabIndex = 4;
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(441, 24);
+            this.label32.Location = new System.Drawing.Point(16, 100);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(300, 21);
             this.label32.TabIndex = 3;
@@ -1101,6 +1138,9 @@ namespace Gerador
         private System.Windows.Forms.TabPage tpMapaResultados;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.RichTextBox rTxtMapaResultados;
+        private System.Windows.Forms.Button btnSelArqResult;
+        private System.Windows.Forms.Button btnSelArqJogos;
+        private System.Windows.Forms.RichTextBox rTxtResultadoConferidosCond;
     }
 }
 
