@@ -56,6 +56,7 @@ namespace Loteria.Entities
             List<Jogo> jogos = new List<Jogo>();
 
             int numMais = 7;
+            bool vSort = false;
 
             for (int i = 1; numJogos > jogos.Count(); i++)
             {
@@ -73,8 +74,11 @@ namespace Loteria.Entities
                     listaPote2.Add(item.Key);
                 }
 
-                listaPote1.Sort();
-                listaPote2.Sort();
+                if (vSort)
+                {
+                    listaPote1.Sort();
+                    listaPote2.Sort();
+                }
 
                 while (l.Count() < 10)
                 {
@@ -90,11 +94,14 @@ namespace Loteria.Entities
                         l.Add(listaPote2[num]);
                 }
 
-                if (Similaridade.ResultadosAnteriores(l, listResultados, 14) && Similaridade.Similar(l, jogos, 14))
+                if (Similaridade.ResultadosAnteriores(l, listResultados, 14) && 
+                    Similaridade.Similar(l, jogos, 14) && 
+                    Regras.MaiorSequencia(l, parametros.MaiorSequencia))
                 {
                     l.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, l));
                     numMais += 7;
+                    vSort = vSort == true ? false : true; 
                 }
             }
             return jogos;
