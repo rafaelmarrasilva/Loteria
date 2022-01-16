@@ -108,5 +108,36 @@ namespace Loteria.Entities
         }
 
 
+        public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, List<int> listaPote2)
+        {
+            List<Jogo> jogos = new List<Jogo>();
+
+            for (int i = 1; numJogos > jogos.Count(); i++)
+            {
+                List<int> l = new List<int>();
+
+                while (l.Count() < 4)
+                {
+                    int num = new Random().Next(listaPote1.Count()+1);
+                    if (!l.Contains(listaPote1[num]))
+                        l.Add(listaPote1[num]);
+                }
+
+                while (l.Count() < 6)
+                {
+                    int num = new Random().Next(10);
+                    if (!l.Contains(listaPote2[num]))
+                        l.Add(listaPote2[num]);
+                }
+
+                if (Similaridade.Similar(l, jogos, 4))
+                {
+                    l.Sort();
+                    jogos.Add(new Jogo(i, DateTime.Now, l));
+                }
+            }
+            return jogos;
+        }
+
     }
 }

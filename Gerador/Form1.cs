@@ -353,7 +353,7 @@ namespace Gerador
                 }
 
                 var dictNumAtrasados = Estatisticas.NumerosAtrasados(resultImporta);
-                foreach (KeyValuePair<int,int> item in dictNumAtrasados)
+                foreach (KeyValuePair<int, int> item in dictNumAtrasados)
                 {
                     if (String.IsNullOrEmpty(rTxtNumAtrasado.Text))
                         rTxtNumAtrasado.Text += "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value;
@@ -465,7 +465,7 @@ namespace Gerador
                     rTxtResultadosConferidos.Text += a.Substring(0, a.Length - 3) + ")\r\n";
                 }
 
-                var groupListaConferida = listaConferida.GroupBy(p => p.Acertos).Select(group => new {Acertos = group.Key, Conta = group.Count()}).OrderByDescending(p => p.Acertos);
+                var groupListaConferida = listaConferida.GroupBy(p => p.Acertos).Select(group => new { Acertos = group.Key, Conta = group.Count() }).OrderByDescending(p => p.Acertos);
 
                 foreach (var item in groupListaConferida)
                 {
@@ -536,40 +536,123 @@ namespace Gerador
 
         private void btnJogoPote_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show("Todas as regras serão ignoradas e será utilizado um sistema de Potes.\r\n" +
-                            "Pote1 contém 15 números.\r\n" + 
+            try
+            {
+                MessageBox.Show("Todas as regras serão ignoradas e será utilizado um sistema de Potes.\r\n" +
+                            "Pote1 contém 15 números.\r\n" +
                             "Pote2 contém 10 números.\r\n" +
                             "A cada jogo gerado os potes são alimentados com novos números basedos nos mais e menos sorteados.\r\n" +
-                            "Iniciando o Pote1 com as 15 mais dos últimos 7 jogos e Pote2 com os 10 menos.\r\n" + 
+                            "Iniciando o Pote1 com as 15 mais dos últimos 7 jogos e Pote2 com os 10 menos.\r\n" +
                             "Demais jogos os potes são abastecidos com múltiplos de 7.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-            Parametros parametros = new Parametros();
+                Parametros parametros = new Parametros();
 
-            if (String.IsNullOrEmpty(txtQtJogos.Text))
-                throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
+                if (String.IsNullOrEmpty(txtQtJogos.Text))
+                    throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
 
-            int vTxtQtJogos;
-            if (!int.TryParse(txtQtJogos.Text, out vTxtQtJogos))
-                throw new InvalidProgramException("Só é permitido digitar números.");
+                int vTxtQtJogos;
+                if (!int.TryParse(txtQtJogos.Text, out vTxtQtJogos))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
 
-            var result = GerarJogo.GerarJogosPote(vTxtQtJogos, parametros, resultImporta);
+                var result = GerarJogo.GerarJogosPote(vTxtQtJogos, parametros, resultImporta);
 
-            foreach (var jogos in result)
-            {
-                string numJogo = null;
-                foreach (var num in jogos.ListaNumeros)
+                foreach (var jogos in result)
                 {
-                    numJogo += num.ToString().PadLeft(2, '0') + " - ";
+                    string numJogo = null;
+                    foreach (var num in jogos.ListaNumeros)
+                    {
+                        numJogo += num.ToString().PadLeft(2, '0') + " - ";
+                    }
+                    numJogo = numJogo.Substring(0, numJogo.Length - 3) + "\r\n";
+                    rTxtResult.Text += numJogo;
                 }
-                numJogo = numJogo.Substring(0, numJogo.Length - 3) + "\r\n";
-                rTxtResult.Text += numJogo;
-            }
-            rTxtResult.ReadOnly = true;
+                rTxtResult.ReadOnly = true;
 
-            btnGerar.Enabled = false;
-            btnJogoPote.Enabled = false;
-            MessageBox.Show("Jogos gerados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnGerar.Enabled = false;
+                btnJogoPote.Enabled = false;
+                MessageBox.Show("Jogos gerados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnGerarPoteMegaSena_Click(object sender, EventArgs e)
+        {
+            txtGPote1MegaSena.Enabled = false;
+            txtGPote2MegaSena.Enabled = false;
+            txtQtdJogsMegaSena.Enabled = false;
+            btnGerarMegaSena.Enabled = false;
+            btnGerarPoteMegaSena.Enabled = false;
+
+            int vTxtQtdeJogosMegaSena = 0;
+            try
+            {
+                if (String.IsNullOrEmpty(txtQtdJogsMegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
+
+                if (!int.TryParse(txtQtdJogsMegaSena.Text, out vTxtQtdeJogosMegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                if (String.IsNullOrEmpty(txtGPote1MegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar os números do pote 1.");
+
+                if (String.IsNullOrEmpty(txtGPote2MegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar os números do pote 2.");
+
+
+                List<int> listaPote1 = new List<int>();
+                foreach (var item in txtGPote1MegaSena.Text.Split(','))
+                {
+                    if (int.TryParse(item, out int value))
+                        listaPote1.Add(value);
+                    else
+                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                }
+
+                List<int> listaPote2 = new List<int>();
+                foreach (var item in txtGPote2MegaSena.Text.Split(','))
+                {
+                    if (int.TryParse(item, out int value))
+                        listaPote2.Add(value);
+                    else
+                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                }
+
+                var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, listaPote2);
+
+                foreach (var jogos in jogosGerados)
+                {
+                    jogos.ListaNumeros.Sort();
+                    string numJogo = null;
+                    foreach (var num in jogos.ListaNumeros)
+                    {
+                        numJogo += num.ToString().PadLeft(2, '0') + " - ";
+                    }
+                    numJogo = numJogo.Substring(0, numJogo.Length - 3) + "\r\n";
+                    rTxtJogosMegaSena.Text += numJogo;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnClearJogoMegaSena_Click(object sender, EventArgs e)
+        {
+            rTxtJogosMegaSena.Clear();
+            txtGPote1MegaSena.Clear();
+            txtGPote2MegaSena.Clear();
+            txtQtdJogsMegaSena.Clear();
+
+            txtGPote1MegaSena.Enabled = true;
+            txtGPote2MegaSena.Enabled = true;
+            txtQtdJogsMegaSena.Enabled = true;
+            btnGerarMegaSena.Enabled = true;
+            btnGerarPoteMegaSena.Enabled = true;
 
 
         }
