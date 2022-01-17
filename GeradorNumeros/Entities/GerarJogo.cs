@@ -35,7 +35,7 @@ namespace Loteria.Entities
                 //Validar regra dos quadrante linha
                 //Só gerar o jogo se todos os parametros forem verdadeiros.
                 if (Regras.Pares(lista, parametros.Pares) &&
-                    Regras.QuadranteLinha(lista, parametros.QuadLinha) &&
+                    Regras.QuadranteLinha(lista, parametros.QuadLinha, "LotoFacil") &&
                     Regras.QuadranteColuna(lista, parametros.QuadColuna) &&
                     Regras.SomaDezenas(lista, parametros.SomaDezenas) &&
                     Regras.MaiorSequencia(lista, parametros.MaiorSequencia) &&
@@ -94,21 +94,20 @@ namespace Loteria.Entities
                         l.Add(listaPote2[num]);
                 }
 
-                if (Similaridade.ResultadosAnteriores(l, listResultados, 14) && 
-                    Similaridade.Similar(l, jogos, 14) && 
+                if (Similaridade.ResultadosAnteriores(l, listResultados, 14) &&
+                    Similaridade.Similar(l, jogos, 14) &&
                     Regras.MaiorSequencia(l, parametros.MaiorSequencia))
                 {
                     l.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, l));
                     numMais += 7;
-                    vSort = vSort == true ? false : true; 
+                    vSort = vSort == true ? false : true;
                 }
             }
             return jogos;
         }
 
-
-        public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, List<int> listaPote2)
+        public static List<Jogo> GerarJogosMegaSena(int numJogos, int qtdDezenas, Parametros parametros)
         {
             List<Jogo> jogos = new List<Jogo>();
 
@@ -116,16 +115,40 @@ namespace Loteria.Entities
             {
                 List<int> l = new List<int>();
 
-                while (l.Count() < 4)
+                while (l.Count() < qtdDezenas)
                 {
-                    int num = new Random().Next(listaPote1.Count()+1);
+                    int num = new Random().Next(0, 61);
+                    if (!l.Contains(num))
+                        l.Add(num);
+                }
+
+                if (Similaridade.Similar(l, jogos, 4) && Regras.QuadranteLinha(l, parametros.QuadLinha, "MegaSena"))
+                {
+                    l.Sort();
+                    jogos.Add(new Jogo(i, DateTime.Now, l));
+                }
+            }
+            return jogos;
+        }
+
+        public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, int qtdNumP1, List<int> listaPote2, int qtdNumP2)
+        {
+            List<Jogo> jogos = new List<Jogo>();
+
+            for (int i = 1; numJogos > jogos.Count(); i++)
+            {
+                List<int> l = new List<int>();
+
+                while (l.Count() < qtdNumP1)
+                {
+                    int num = new Random().Next(listaPote1.Count());
                     if (!l.Contains(listaPote1[num]))
                         l.Add(listaPote1[num]);
                 }
 
-                while (l.Count() < 6)
+                while (l.Count() < qtdNumP2)
                 {
-                    int num = new Random().Next(10);
+                    int num = new Random().Next(listaPote2.Count());
                     if (!l.Contains(listaPote2[num]))
                         l.Add(listaPote2[num]);
                 }

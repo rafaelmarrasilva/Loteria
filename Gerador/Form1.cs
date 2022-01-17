@@ -20,10 +20,15 @@ namespace Gerador
         }
 
         List<Resultado> resultImporta = new List<Resultado>();
+        string nomeLoteriaImportada = String.Empty;
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
+                if (nomeLoteriaImportada != "LotoFacil")
+                    throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
                 txtNumPares.Enabled = false;
                 txtMaiorSeq.Enabled = false;
                 txtMenorSeq.Enabled = false;
@@ -275,6 +280,9 @@ namespace Gerador
         {
             try
             {
+                if(nomeLoteriaImportada != "LotoFacil")
+                    throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
                 rTxtNumMaisSorteados.Clear();
                 rTxtQtdPares.Clear();
                 rTxtSomaDezenas.Clear();
@@ -379,10 +387,22 @@ namespace Gerador
                 MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        private void btnClearAnaLotoFacil_Click(object sender, EventArgs e)
+        {
+            rTxtQtdPares.Clear();
+            rTxtNumMaisSorteados.Clear();
+            rTxtQuadranteColuna.Clear();
+            rTxtQuadranteLinha.Clear();
+            rTxtSomaDezenas.Clear();
+            rTxtNumAtrasado.Clear();
+            rTxtMapaResultados.Clear();
+            txtQtConcAnalisar.Clear();
+        }
 
         private void btnImporta_Click_1(object sender, EventArgs e)
         {
             btnImporta.Enabled = false;
+            cbImportaLoteria.Enabled = false;
             rTxtResulImport.Clear();
             rTxtResumoImpor.Clear();
             rTxtResulImport.ReadOnly = true;
@@ -393,7 +413,12 @@ namespace Gerador
                 if (String.IsNullOrEmpty(txtNomeArquivo.Text))
                     throw new InvalidProgramException("É obrigatórios informar o nome do arquivo.");
 
-                (var result, string resumoImport) = Regras.CarregarResultados(txtNomeArquivo.Text);
+                if (String.IsNullOrEmpty(cbImportaLoteria.Text))
+                    throw new InvalidProgramException("É obrigatórios selecionar uma loteria");
+
+                nomeLoteriaImportada = cbImportaLoteria.Text;
+
+                (var result, string resumoImport) = Regras.CarregarResultados(txtNomeArquivo.Text, nomeLoteriaImportada);
                 resultImporta = result;
 
                 foreach (var item in resultImporta.Where(c => c.Concurso >= resultImporta.Max(w => w.Concurso) - 30).OrderByDescending(s => s.Concurso))
@@ -429,6 +454,7 @@ namespace Gerador
             rTxtResumoImpor.Clear();
             txtNomeArquivo.Clear();
             btnImporta.Enabled = true;
+            cbImportaLoteria.Enabled = true;
         }
 
         private void btnConferir_Click(object sender, EventArgs e)
@@ -538,6 +564,9 @@ namespace Gerador
         {
             try
             {
+                if (nomeLoteriaImportada != "LotoFacil")
+                    throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
                 MessageBox.Show("Todas as regras serão ignoradas e será utilizado um sistema de Potes.\r\n" +
                             "Pote1 contém 15 números.\r\n" +
                             "Pote2 contém 10 números.\r\n" +
@@ -580,13 +609,29 @@ namespace Gerador
 
         private void btnGerarPoteMegaSena_Click(object sender, EventArgs e)
         {
+            if (nomeLoteriaImportada != "MegaSena")
+                throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
             txtGPote1MegaSena.Enabled = false;
             txtGPote2MegaSena.Enabled = false;
             txtQtdJogsMegaSena.Enabled = false;
+            txtQtdPote1MegaSena.Enabled = false;
+            txtQtdPote2MegaSena.Enabled = false;
+            txtGPote2MegaSena.Enabled = false;
             btnGerarMegaSena.Enabled = false;
             btnGerarPoteMegaSena.Enabled = false;
 
+            txtLinha1MegaSena.Enabled = false;
+            txtLinha2MegaSena.Enabled = false;
+            txtLinha3MegaSena.Enabled = false;
+            txtLinha4MegaSena.Enabled = false;
+            txtLinha5MegaSena.Enabled = false;
+            txtLinha6MegaSena.Enabled = false;
+
             int vTxtQtdeJogosMegaSena = 0;
+            int vTxtQtdPote1MegaSena = 0;
+            int vTxtQtdPote2MegaSena = 0;
+
             try
             {
                 if (String.IsNullOrEmpty(txtQtdJogsMegaSena.Text))
@@ -598,9 +643,20 @@ namespace Gerador
                 if (String.IsNullOrEmpty(txtGPote1MegaSena.Text))
                     throw new InvalidProgramException("É obrigatório informar os números do pote 1.");
 
+                if (String.IsNullOrEmpty(txtQtdPote1MegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar quantos números deverão ser escolhidos no Pote 1.");
+
+                if (!int.TryParse(txtQtdPote1MegaSena.Text, out vTxtQtdPote1MegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
                 if (String.IsNullOrEmpty(txtGPote2MegaSena.Text))
                     throw new InvalidProgramException("É obrigatório informar os números do pote 2.");
 
+                if (String.IsNullOrEmpty(txtQtdPote2MegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar a quantidade de dezemas");
+
+                if (!int.TryParse(txtQtdPote2MegaSena.Text, out vTxtQtdPote2MegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
 
                 List<int> listaPote1 = new List<int>();
                 foreach (var item in txtGPote1MegaSena.Text.Split(','))
@@ -620,7 +676,7 @@ namespace Gerador
                         throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
                 }
 
-                var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, listaPote2);
+                var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, vTxtQtdPote1MegaSena, listaPote2, vTxtQtdPote2MegaSena);
 
                 foreach (var jogos in jogosGerados)
                 {
@@ -639,6 +695,7 @@ namespace Gerador
             {
                 MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
         }
 
         private void btnClearJogoMegaSena_Click(object sender, EventArgs e)
@@ -647,14 +704,162 @@ namespace Gerador
             txtGPote1MegaSena.Clear();
             txtGPote2MegaSena.Clear();
             txtQtdJogsMegaSena.Clear();
+            txtQtdPote1MegaSena.Clear();
+            txtQtdPote2MegaSena.Clear();
+
+            txtLinha1MegaSena.Clear();
+            txtLinha2MegaSena.Clear();
+            txtLinha3MegaSena.Clear();
+            txtLinha4MegaSena.Clear();
+            txtLinha5MegaSena.Clear();
+            txtLinha6MegaSena.Clear();
 
             txtGPote1MegaSena.Enabled = true;
             txtGPote2MegaSena.Enabled = true;
             txtQtdJogsMegaSena.Enabled = true;
+            txtQtdPote1MegaSena.Enabled = true;
+            txtGPote2MegaSena.Enabled = true;
+            txtQtdPote1MegaSena.Enabled = true;
+            txtQtdPote2MegaSena.Enabled = true;
             btnGerarMegaSena.Enabled = true;
             btnGerarPoteMegaSena.Enabled = true;
 
+            chkGeraLinhaMegaSena.Checked = false;
+        }
 
+        private void chkGeraLinhaMegaSena_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkGeraLinhaMegaSena.Checked == true)
+            {
+                txtLinha1MegaSena.Enabled = true;
+                txtLinha2MegaSena.Enabled = true;
+                txtLinha3MegaSena.Enabled = true;
+                txtLinha4MegaSena.Enabled = true;
+                txtLinha5MegaSena.Enabled = true;
+                txtLinha6MegaSena.Enabled = true;
+            }
+            else
+            {
+                txtLinha1MegaSena.Enabled = false;
+                txtLinha2MegaSena.Enabled = false;
+                txtLinha3MegaSena.Enabled = false;
+                txtLinha4MegaSena.Enabled = false;
+                txtLinha5MegaSena.Enabled = false;
+                txtLinha6MegaSena.Enabled = false;
+            }
+        }
+
+        private void btnGerarMegaSena_Click(object sender, EventArgs e)
+        {
+            int vTxtQtdPote2MegaSena = 0;
+            int vTxtQtdeJogosMegaSena = 0;
+
+            txtQtdJogsMegaSena.Enabled = false;
+            txtQtdPote2MegaSena.Enabled = false;
+            txtLinha1MegaSena.Enabled = false;
+            txtLinha2MegaSena.Enabled = false;
+            txtLinha3MegaSena.Enabled = false;
+            txtLinha4MegaSena.Enabled = false;
+            txtLinha5MegaSena.Enabled = false;
+            txtLinha6MegaSena.Enabled = false;
+
+            try
+            {
+                if (nomeLoteriaImportada != "MegaSena")
+                    throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
+                if (String.IsNullOrEmpty(txtQtdJogsMegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
+
+                if (!int.TryParse(txtQtdJogsMegaSena.Text, out vTxtQtdeJogosMegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                if (String.IsNullOrEmpty(txtQtdPote2MegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar a quantidade de dezemas");
+
+                if (!int.TryParse(txtQtdPote2MegaSena.Text, out vTxtQtdPote2MegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                Parametros parametros = new Parametros();
+
+                if (chkGeraLinhaMegaSena.Checked == true)
+                {
+                    if ((String.IsNullOrEmpty(txtLinha1MegaSena.Text) || String.IsNullOrEmpty(txtLinha2MegaSena.Text) || String.IsNullOrEmpty(txtLinha3MegaSena.Text) || String.IsNullOrEmpty(txtLinha4MegaSena.Text) || String.IsNullOrEmpty(txtLinha5MegaSena.Text) || String.IsNullOrEmpty(txtLinha6MegaSena.Text)))
+                        throw new InvalidProgramException("Todos os campos precisam ser preenchidos.");
+                    else
+                    {
+                        parametros.addQuadLinha(txtLinha1MegaSena.Text);
+                        parametros.addQuadLinha(txtLinha2MegaSena.Text);
+                        parametros.addQuadLinha(txtLinha3MegaSena.Text);
+                        parametros.addQuadLinha(txtLinha4MegaSena.Text);
+                        parametros.addQuadLinha(txtLinha5MegaSena.Text);
+                        parametros.addQuadLinha(txtLinha6MegaSena.Text);
+                    }
+                }
+
+                var jogosGerados = GerarJogo.GerarJogosMegaSena(vTxtQtdeJogosMegaSena, vTxtQtdPote2MegaSena, parametros);
+
+                foreach (var jogos in jogosGerados)
+                {
+                    jogos.ListaNumeros.Sort();
+                    string numJogo = null;
+                    foreach (var num in jogos.ListaNumeros)
+                    {
+                        numJogo += num.ToString().PadLeft(2, '0') + " - ";
+                    }
+                    numJogo = numJogo.Substring(0, numJogo.Length - 3) + "\r\n";
+                    rTxtJogosMegaSena.Text += numJogo;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+        }
+
+        private void btnAnaClearMegaSena_Click(object sender, EventArgs e)
+        {
+            txtQtdAnaMegaSena.Clear();
+            rTxtNumMaisMegaSena.Clear();
+            txtQtdAnaMegaSena.Enabled = true;
+        }
+
+        private void btnAnaMegaSena_Click(object sender, EventArgs e)
+        {
+            int vTxtQtdAnaMegaSena = 0;
+            txtQtdAnaMegaSena.Enabled = false;
+            rTxtNumMaisMegaSena.ReadOnly = true;
+
+            try
+            {
+                if (nomeLoteriaImportada != "MegaSena")
+                    throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
+
+                if (resultImporta.Count() == 0)
+                    throw new InvalidProgramException("Os resultados não foram importados.\r\nFavor importar.");
+
+                if (!(int.TryParse(txtQtdAnaMegaSena.Text, out vTxtQtdAnaMegaSena)))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                var dictNumMaisSorteados = Estatisticas.NumMaisSorteados(resultImporta, vTxtQtdAnaMegaSena);
+
+                foreach (KeyValuePair<int, int> item in dictNumMaisSorteados)
+                {
+                    var valPercent = Math.Truncate(((double)item.Value / (double)vTxtQtdAnaMegaSena) * 100.0);
+                    if (String.IsNullOrEmpty(rTxtNumMaisMegaSena.Text))
+                        rTxtNumMaisMegaSena.Text += "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                    else
+                        rTxtNumMaisMegaSena.Text += "\r\n" + "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

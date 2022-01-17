@@ -9,15 +9,26 @@ namespace Loteria.Entities
 {
     public static class Regras
     {
-        public static (List<Resultado>, string) CarregarResultados(string nomeArquivo)
+        public static (List<Resultado>, string) CarregarResultados(string nomeArquivo, string nomeLoteria)
         {
+            int posLinha = 0;
+            switch (nomeLoteria)
+            {
+                case "LotoFacil":
+                    posLinha = 17;
+                    break;
+                case "MegaSena":
+                    posLinha = 8;
+                    break;
+            }
+
             List<Resultado> result = new List<Resultado>();
             int resultNaoImpor = 0;
             foreach (var linhas in File.ReadAllLines(nomeArquivo))
             {
                 Resultado resultado = new Resultado();
                 string[] vs = linhas.ToString().Split(',');
-                if (vs.Length == 17)
+                if (vs.Length == posLinha)
                 {
                     resultado.Concurso = int.Parse(vs[0]);
                     resultado.Data = DateTime.Parse(vs[1]);
@@ -84,22 +95,44 @@ namespace Loteria.Entities
             return parametros.Contains(i);
         }
 
-        public static bool QuadranteLinha(List<int> lista, List<string> parametros)
+        public static bool QuadranteLinha(List<int> lista, List<string> parametros, string nomeLoteria)
         {
+            int startNumIni = 0;
+            int startNumFim = 0;
+            int maxNumLinhas = 0;
+            int numSoma = 0;
+
+            switch (nomeLoteria)
+            {
+                case "LotoFacil":
+                    startNumIni = 1;
+                    startNumFim = 5;
+                    maxNumLinhas = 5;
+                    numSoma = 5;
+                    break;
+
+                case "MegaSena":
+                    startNumIni = 1;
+                    startNumFim = 10;
+                    maxNumLinhas = 6;
+                    numSoma = 10;
+                    break;
+            }
+
             if (parametros.Count() == 0)
             {
                 return true;
             }
             List<int> listaResult = new List<int>();
-            int numIni = 1;
-            int numFim = 5;
+            int numIni = startNumIni;
+            int numFim = startNumFim;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < maxNumLinhas; i++)
             {
                 IEnumerable<int> Query = from num in lista where num >= numIni && num <= numFim select num;
                 listaResult.Add(Query.Count());
-                numIni += 5;
-                numFim += 5;
+                numIni += numSoma;
+                numFim += numSoma;
             }
             int k = 0;
             int contaQL = 0;
@@ -114,7 +147,7 @@ namespace Loteria.Entities
                 }
                 k++;
             }
-            return contaQL == 5 ? true : false;
+            return contaQL == maxNumLinhas ? true : false;
             //01, 02, 03, 04, 05
             //06, 07, 08, 09, 10
             //11, 12, 13, 14, 15
