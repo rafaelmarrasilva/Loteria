@@ -107,7 +107,7 @@ namespace Loteria.Entities
             return jogos;
         }
 
-        public static List<Jogo> GerarJogosMegaSena(int numJogos, int qtdDezenas, Parametros parametros)
+        public static List<Jogo> GerarJogosMegaSena(int numJogos, int qtdDezenas, Parametros parametros, List<Resultado> listResultados)
         {
             List<Jogo> jogos = new List<Jogo>();
 
@@ -122,7 +122,9 @@ namespace Loteria.Entities
                         l.Add(num);
                 }
 
-                if (Similaridade.Similar(l, jogos, 4) && Regras.QuadranteLinha(l, parametros.QuadLinha, "MegaSena"))
+                if (Similaridade.ResultadosAnteriores(l, listResultados, 4) &&
+                    Similaridade.Similar(l, jogos, 4) && 
+                    Regras.QuadranteLinha(l, parametros.QuadLinha, "MegaSena"))
                 {
                     l.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, l));
@@ -131,8 +133,17 @@ namespace Loteria.Entities
             return jogos;
         }
 
-        public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, int qtdNumP1, List<int> listaPote2, int qtdNumP2)
+        public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, int qtdNumP1, List<int> listaPote2, int qtdNumP2, List<Resultado> listResultados)
         {
+            if (listaPote2.Count() == 0)
+            {
+                for (int i = 1; i <= 60; i++)
+                {
+                    if (!listaPote1.Contains(i))
+                        listaPote2.Add(i);
+                }
+            }
+
             List<Jogo> jogos = new List<Jogo>();
 
             for (int i = 1; numJogos > jogos.Count(); i++)
@@ -153,7 +164,7 @@ namespace Loteria.Entities
                         l.Add(listaPote2[num]);
                 }
 
-                if (Similaridade.Similar(l, jogos, 4))
+                if (Similaridade.ResultadosAnteriores(l, listResultados, 4) && Similaridade.Similar(l, jogos, 4))
                 {
                     l.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, l));

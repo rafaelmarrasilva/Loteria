@@ -122,6 +122,13 @@ namespace Gerador
             this.tpMegasena = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tp1Analisador = new System.Windows.Forms.TabPage();
+            this.label49 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnAnaClearMegaSena = new System.Windows.Forms.Button();
+            this.label48 = new System.Windows.Forms.Label();
+            this.txtQtdAnaMegaSena = new System.Windows.Forms.TextBox();
+            this.btnAnaMegaSena = new System.Windows.Forms.Button();
+            this.rTxtNumMaisMegaSena = new System.Windows.Forms.RichTextBox();
             this.tp1Gerador = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label42 = new System.Windows.Forms.Label();
@@ -156,13 +163,7 @@ namespace Gerador
             this.btnGerarMegaSena = new System.Windows.Forms.Button();
             this.rTxtJogosMegaSena = new System.Windows.Forms.RichTextBox();
             this.label40 = new System.Windows.Forms.Label();
-            this.rTxtNumMaisMegaSena = new System.Windows.Forms.RichTextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnAnaClearMegaSena = new System.Windows.Forms.Button();
-            this.label48 = new System.Windows.Forms.Label();
-            this.txtQtdAnaMegaSena = new System.Windows.Forms.TextBox();
-            this.btnAnaMegaSena = new System.Windows.Forms.Button();
-            this.label49 = new System.Windows.Forms.Label();
+            this.chkPote2Auto = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -175,10 +176,10 @@ namespace Gerador
             this.tpMegasena.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tp1Analisador.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.tp1Gerador.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -1157,6 +1158,79 @@ namespace Gerador
             this.tp1Analisador.Text = "Analisador";
             this.tp1Analisador.UseVisualStyleBackColor = true;
             // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label49.Location = new System.Drawing.Point(425, 12);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(170, 21);
+            this.label49.TabIndex = 43;
+            this.label49.Text = "Num. mais sorteados";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnAnaClearMegaSena);
+            this.groupBox6.Controls.Add(this.label48);
+            this.groupBox6.Controls.Add(this.txtQtdAnaMegaSena);
+            this.groupBox6.Controls.Add(this.btnAnaMegaSena);
+            this.groupBox6.Location = new System.Drawing.Point(14, 12);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(383, 137);
+            this.groupBox6.TabIndex = 43;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Critérios Análise";
+            // 
+            // btnAnaClearMegaSena
+            // 
+            this.btnAnaClearMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAnaClearMegaSena.Location = new System.Drawing.Point(302, 93);
+            this.btnAnaClearMegaSena.Name = "btnAnaClearMegaSena";
+            this.btnAnaClearMegaSena.Size = new System.Drawing.Size(75, 38);
+            this.btnAnaClearMegaSena.TabIndex = 9;
+            this.btnAnaClearMegaSena.Text = "Clear";
+            this.btnAnaClearMegaSena.UseVisualStyleBackColor = true;
+            this.btnAnaClearMegaSena.Click += new System.EventHandler(this.btnAnaClearMegaSena_Click);
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label48.Location = new System.Drawing.Point(7, 35);
+            this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(248, 21);
+            this.label48.TabIndex = 8;
+            this.label48.Text = "Informe a qtde de jogos a analisar:";
+            // 
+            // txtQtdAnaMegaSena
+            // 
+            this.txtQtdAnaMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtQtdAnaMegaSena.Location = new System.Drawing.Point(7, 59);
+            this.txtQtdAnaMegaSena.Name = "txtQtdAnaMegaSena";
+            this.txtQtdAnaMegaSena.Size = new System.Drawing.Size(57, 25);
+            this.txtQtdAnaMegaSena.TabIndex = 6;
+            this.txtQtdAnaMegaSena.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnAnaMegaSena
+            // 
+            this.btnAnaMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAnaMegaSena.Location = new System.Drawing.Point(223, 93);
+            this.btnAnaMegaSena.Name = "btnAnaMegaSena";
+            this.btnAnaMegaSena.Size = new System.Drawing.Size(73, 38);
+            this.btnAnaMegaSena.TabIndex = 4;
+            this.btnAnaMegaSena.Text = "Analisar";
+            this.btnAnaMegaSena.UseVisualStyleBackColor = true;
+            this.btnAnaMegaSena.Click += new System.EventHandler(this.btnAnaMegaSena_Click);
+            // 
+            // rTxtNumMaisMegaSena
+            // 
+            this.rTxtNumMaisMegaSena.Location = new System.Drawing.Point(425, 44);
+            this.rTxtNumMaisMegaSena.Name = "rTxtNumMaisMegaSena";
+            this.rTxtNumMaisMegaSena.Size = new System.Drawing.Size(181, 405);
+            this.rTxtNumMaisMegaSena.TabIndex = 0;
+            this.rTxtNumMaisMegaSena.Text = "";
+            // 
             // tp1Gerador
             // 
             this.tp1Gerador.Controls.Add(this.groupBox5);
@@ -1175,6 +1249,7 @@ namespace Gerador
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.chkPote2Auto);
             this.groupBox5.Controls.Add(this.label42);
             this.groupBox5.Controls.Add(this.txtQtdPote1MegaSena);
             this.groupBox5.Controls.Add(this.label38);
@@ -1213,7 +1288,7 @@ namespace Gerador
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label38.ForeColor = System.Drawing.Color.Red;
-            this.label38.Location = new System.Drawing.Point(79, 114);
+            this.label38.Location = new System.Drawing.Point(71, 113);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(75, 15);
             this.label38.TabIndex = 45;
@@ -1235,7 +1310,7 @@ namespace Gerador
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label35.ForeColor = System.Drawing.Color.Red;
-            this.label35.Location = new System.Drawing.Point(79, 40);
+            this.label35.Location = new System.Drawing.Point(71, 41);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(75, 15);
             this.label35.TabIndex = 43;
@@ -1505,78 +1580,17 @@ namespace Gerador
             this.label40.TabIndex = 46;
             this.label40.Text = "Caminho do Arquivo:";
             // 
-            // rTxtNumMaisMegaSena
+            // chkPote2Auto
             // 
-            this.rTxtNumMaisMegaSena.Location = new System.Drawing.Point(425, 44);
-            this.rTxtNumMaisMegaSena.Name = "rTxtNumMaisMegaSena";
-            this.rTxtNumMaisMegaSena.Size = new System.Drawing.Size(181, 405);
-            this.rTxtNumMaisMegaSena.TabIndex = 0;
-            this.rTxtNumMaisMegaSena.Text = "";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.btnAnaClearMegaSena);
-            this.groupBox6.Controls.Add(this.label48);
-            this.groupBox6.Controls.Add(this.txtQtdAnaMegaSena);
-            this.groupBox6.Controls.Add(this.btnAnaMegaSena);
-            this.groupBox6.Location = new System.Drawing.Point(14, 12);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(383, 137);
-            this.groupBox6.TabIndex = 43;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Critérios Análise";
-            // 
-            // btnAnaClearMegaSena
-            // 
-            this.btnAnaClearMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAnaClearMegaSena.Location = new System.Drawing.Point(302, 93);
-            this.btnAnaClearMegaSena.Name = "btnAnaClearMegaSena";
-            this.btnAnaClearMegaSena.Size = new System.Drawing.Size(75, 38);
-            this.btnAnaClearMegaSena.TabIndex = 9;
-            this.btnAnaClearMegaSena.Text = "Clear";
-            this.btnAnaClearMegaSena.UseVisualStyleBackColor = true;
-            this.btnAnaClearMegaSena.Click += new System.EventHandler(this.btnAnaClearMegaSena_Click);
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label48.Location = new System.Drawing.Point(7, 35);
-            this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(248, 21);
-            this.label48.TabIndex = 8;
-            this.label48.Text = "Informe a qtde de jogos a analisar:";
-            // 
-            // txtQtdAnaMegaSena
-            // 
-            this.txtQtdAnaMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtQtdAnaMegaSena.Location = new System.Drawing.Point(7, 59);
-            this.txtQtdAnaMegaSena.Name = "txtQtdAnaMegaSena";
-            this.txtQtdAnaMegaSena.Size = new System.Drawing.Size(57, 25);
-            this.txtQtdAnaMegaSena.TabIndex = 6;
-            this.txtQtdAnaMegaSena.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btnAnaMegaSena
-            // 
-            this.btnAnaMegaSena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAnaMegaSena.Location = new System.Drawing.Point(223, 93);
-            this.btnAnaMegaSena.Name = "btnAnaMegaSena";
-            this.btnAnaMegaSena.Size = new System.Drawing.Size(73, 38);
-            this.btnAnaMegaSena.TabIndex = 4;
-            this.btnAnaMegaSena.Text = "Analisar";
-            this.btnAnaMegaSena.UseVisualStyleBackColor = true;
-            this.btnAnaMegaSena.Click += new System.EventHandler(this.btnAnaMegaSena_Click);
-            // 
-            // label49
-            // 
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label49.Location = new System.Drawing.Point(425, 12);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(170, 21);
-            this.label49.TabIndex = 43;
-            this.label49.Text = "Num. mais sorteados";
+            this.chkPote2Auto.AutoSize = true;
+            this.chkPote2Auto.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.chkPote2Auto.Location = new System.Drawing.Point(152, 109);
+            this.chkPote2Auto.Name = "chkPote2Auto";
+            this.chkPote2Auto.Size = new System.Drawing.Size(245, 23);
+            this.chkPote2Auto.TabIndex = 50;
+            this.chkPote2Auto.Text = "Preencher Pote 2 Automaticamente";
+            this.chkPote2Auto.UseVisualStyleBackColor = true;
+            this.chkPote2Auto.CheckedChanged += new System.EventHandler(this.chkPote2Auto_CheckedChanged);
             // 
             // Form1
             // 
@@ -1608,13 +1622,13 @@ namespace Gerador
             this.tabControl2.ResumeLayout(false);
             this.tp1Analisador.ResumeLayout(false);
             this.tp1Analisador.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.tp1Gerador.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1759,6 +1773,8 @@ namespace Gerador
         private System.Windows.Forms.RichTextBox rTxtNu;
         private System.Windows.Forms.Button btn;
         private System.Windows.Forms.RichTextBox rTxtNumMaisMegaSena;
+        private System.Windows.Forms.CheckBox chkPote2Auto;
+        private System.Windows.Forms.CheckBox hk;
     }
 }
 

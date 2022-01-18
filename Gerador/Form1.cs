@@ -620,6 +620,7 @@ namespace Gerador
             txtGPote2MegaSena.Enabled = false;
             btnGerarMegaSena.Enabled = false;
             btnGerarPoteMegaSena.Enabled = false;
+            chkPote2Auto.Enabled = false;
 
             txtLinha1MegaSena.Enabled = false;
             txtLinha2MegaSena.Enabled = false;
@@ -649,7 +650,7 @@ namespace Gerador
                 if (!int.TryParse(txtQtdPote1MegaSena.Text, out vTxtQtdPote1MegaSena))
                     throw new InvalidProgramException("Só é permitido digitar números.");
 
-                if (String.IsNullOrEmpty(txtGPote2MegaSena.Text))
+                if (String.IsNullOrEmpty(txtGPote2MegaSena.Text) && chkPote2Auto.Checked == false)
                     throw new InvalidProgramException("É obrigatório informar os números do pote 2.");
 
                 if (String.IsNullOrEmpty(txtQtdPote2MegaSena.Text))
@@ -668,15 +669,18 @@ namespace Gerador
                 }
 
                 List<int> listaPote2 = new List<int>();
-                foreach (var item in txtGPote2MegaSena.Text.Split(','))
+                if (chkPote2Auto.Checked == false)
                 {
-                    if (int.TryParse(item, out int value))
-                        listaPote2.Add(value);
-                    else
-                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                    foreach (var item in txtGPote2MegaSena.Text.Split(','))
+                    {
+                        if (int.TryParse(item, out int value))
+                            listaPote2.Add(value);
+                        else
+                            throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                    }
                 }
-
-                var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, vTxtQtdPote1MegaSena, listaPote2, vTxtQtdPote2MegaSena);
+                
+                var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, vTxtQtdPote1MegaSena, listaPote2, vTxtQtdPote2MegaSena, resultImporta);
 
                 foreach (var jogos in jogosGerados)
                 {
@@ -714,6 +718,8 @@ namespace Gerador
             txtLinha5MegaSena.Clear();
             txtLinha6MegaSena.Clear();
 
+            chkPote2Auto.Checked = false;
+            chkPote2Auto.Enabled = true;
             txtGPote1MegaSena.Enabled = true;
             txtGPote2MegaSena.Enabled = true;
             txtQtdJogsMegaSena.Enabled = true;
@@ -754,6 +760,7 @@ namespace Gerador
             int vTxtQtdPote2MegaSena = 0;
             int vTxtQtdeJogosMegaSena = 0;
 
+            chkPote2Auto.Enabled = false;
             txtQtdJogsMegaSena.Enabled = false;
             txtQtdPote2MegaSena.Enabled = false;
             txtLinha1MegaSena.Enabled = false;
@@ -797,7 +804,7 @@ namespace Gerador
                     }
                 }
 
-                var jogosGerados = GerarJogo.GerarJogosMegaSena(vTxtQtdeJogosMegaSena, vTxtQtdPote2MegaSena, parametros);
+                var jogosGerados = GerarJogo.GerarJogosMegaSena(vTxtQtdeJogosMegaSena, vTxtQtdPote2MegaSena, parametros, resultImporta);
 
                 foreach (var jogos in jogosGerados)
                 {
@@ -860,6 +867,15 @@ namespace Gerador
             {
                 MessageBox.Show(ex.Message, "Aleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void chkPote2Auto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPote2Auto.Checked)
+                txtGPote2MegaSena.Enabled = false;
+            else
+                txtGPote2MegaSena.Enabled = true;
+
         }
     }
 }
