@@ -612,36 +612,24 @@ namespace Gerador
             if (nomeLoteriaImportada != "MegaSena")
                 throw new InvalidProgramException("É necessario importar os resultados dessa loteria.");
 
-            txtGPote1MegaSena.Enabled = false;
-            txtGPote2MegaSena.Enabled = false;
-            txtQtdJogsMegaSena.Enabled = false;
-            txtQtdPote1MegaSena.Enabled = false;
-            txtQtdPote2MegaSena.Enabled = false;
-            txtGPote2MegaSena.Enabled = false;
-            btnGerarMegaSena.Enabled = false;
-            btnGerarPoteMegaSena.Enabled = false;
-            chkPote2Auto.Enabled = false;
-
-            txtLinha1MegaSena.Enabled = false;
-            txtLinha2MegaSena.Enabled = false;
-            txtLinha3MegaSena.Enabled = false;
-            txtLinha4MegaSena.Enabled = false;
-            txtLinha5MegaSena.Enabled = false;
-            txtLinha6MegaSena.Enabled = false;
-
             int vTxtQtdeJogosMegaSena = 0;
             int vTxtQtdPote1MegaSena = 0;
             int vTxtQtdPote2MegaSena = 0;
+            int vTxtGPote1MegaSenaMaisSorteados = 0;
+            int vTxtGPote1ResultMegaSena = 0;
 
             try
             {
+                if (resultImporta.Count() == 0)
+                    throw new InvalidProgramException("Os resultados não foram importados.\r\nFavor importar.");
+
                 if (String.IsNullOrEmpty(txtQtdJogsMegaSena.Text))
                     throw new InvalidProgramException("É obrigatório informar quantos jogos deseja gerar.");
 
                 if (!int.TryParse(txtQtdJogsMegaSena.Text, out vTxtQtdeJogosMegaSena))
                     throw new InvalidProgramException("Só é permitido digitar números.");
 
-                if (String.IsNullOrEmpty(txtGPote1MegaSena.Text))
+                if (String.IsNullOrEmpty(txtGPote1MegaSena.Text) && chkPreenchePote1MegaSena.Checked == false)
                     throw new InvalidProgramException("É obrigatório informar os números do pote 1.");
 
                 if (String.IsNullOrEmpty(txtQtdPote1MegaSena.Text))
@@ -651,7 +639,7 @@ namespace Gerador
                     throw new InvalidProgramException("Só é permitido digitar números.");
 
                 if (String.IsNullOrEmpty(txtGPote2MegaSena.Text) && chkPote2Auto.Checked == false)
-                    throw new InvalidProgramException("É obrigatório informar os números do pote 2.");
+                    throw new InvalidProgramException("É obrigatório informar os números do pote 2 ou marcar a opção Preencher Pote 2...");
 
                 if (String.IsNullOrEmpty(txtQtdPote2MegaSena.Text))
                     throw new InvalidProgramException("É obrigatório informar a quantidade de dezemas");
@@ -659,13 +647,44 @@ namespace Gerador
                 if (!int.TryParse(txtQtdPote2MegaSena.Text, out vTxtQtdPote2MegaSena))
                     throw new InvalidProgramException("Só é permitido digitar números.");
 
+                if (chkPreenchePote1MegaSena.Checked && String.IsNullOrEmpty(txtGPote1MegaSenaMaisSorteados.Text))
+                    throw new InvalidProgramException("É obrigatório informar a quantidade.");
+
+                if (chkPreenchePote1MegaSena.Checked && String.IsNullOrEmpty(txtGPote1ResultMegaSena.Text))
+                    throw new InvalidProgramException("É obrigatório informar a quantidade.");
+
+                if (chkPreenchePote1MegaSena.Checked && !int.TryParse(txtGPote1MegaSenaMaisSorteados.Text, out vTxtGPote1MegaSenaMaisSorteados))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+                if (chkPreenchePote1MegaSena.Checked && !int.TryParse(txtGPote1ResultMegaSena.Text, out vTxtGPote1ResultMegaSena))
+                    throw new InvalidProgramException("Só é permitido digitar números.");
+
+
                 List<int> listaPote1 = new List<int>();
-                foreach (var item in txtGPote1MegaSena.Text.Split(','))
+                if (chkPreenchePote1MegaSena.Checked)
                 {
-                    if (int.TryParse(item, out int value))
-                        listaPote1.Add(value);
-                    else
-                        throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                    var dictNumMaisSorteados = Estatisticas.NumMaisSorteados(resultImporta, vTxtGPote1ResultMegaSena);
+
+                    if (dictNumMaisSorteados.Where(x => x.Value > 0).Count() < vTxtGPote1MegaSenaMaisSorteados)
+                        throw new InvalidProgramException("A Qtde. de resultados analisados trouxe uma qtde. de numeros menores do que o sugerido.\rInforme uma qtde. maior de resultados ou\rInforma uma qtde. menor de numeros mais sorteados. ");
+
+                    var dic = dictNumMaisSorteados.Where(x => x.Value > 0).Take(vTxtGPote1MegaSenaMaisSorteados);
+
+                    foreach (KeyValuePair<int, int> item in dic)
+                    {
+                        listaPote1.Add(item.Key);
+                    }
+
+                }
+                else
+                {
+                    foreach (var item in txtGPote1MegaSena.Text.Split(','))
+                    {
+                        if (int.TryParse(item, out int value))
+                            listaPote1.Add(value);
+                        else
+                            throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
+                    }
                 }
 
                 List<int> listaPote2 = new List<int>();
@@ -679,7 +698,28 @@ namespace Gerador
                             throw new InvalidProgramException("Só é permitido digitar números e ou ',' como separador.");
                     }
                 }
-                
+
+                txtGPote1MegaSena.Enabled = false;
+                txtGPote2MegaSena.Enabled = false;
+                txtQtdJogsMegaSena.Enabled = false;
+                txtQtdPote1MegaSena.Enabled = false;
+                txtQtdPote2MegaSena.Enabled = false;
+                txtGPote2MegaSena.Enabled = false;
+                btnGerarMegaSena.Enabled = false;
+                btnGerarPoteMegaSena.Enabled = false;
+                chkPote2Auto.Enabled = false;
+
+                txtLinha1MegaSena.Enabled = false;
+                txtLinha2MegaSena.Enabled = false;
+                txtLinha3MegaSena.Enabled = false;
+                txtLinha4MegaSena.Enabled = false;
+                txtLinha5MegaSena.Enabled = false;
+                txtLinha6MegaSena.Enabled = false;
+
+                txtGPote1MegaSenaMaisSorteados.Enabled = false;
+                txtGPote1ResultMegaSena.Enabled = false;
+                chkPreenchePote1MegaSena.Enabled = false;
+
                 var jogosGerados = GerarJogo.GerarJogosPoteMegaSena(vTxtQtdeJogosMegaSena, listaPote1, vTxtQtdPote1MegaSena, listaPote2, vTxtQtdPote2MegaSena, resultImporta);
 
                 foreach (var jogos in jogosGerados)
@@ -718,6 +758,10 @@ namespace Gerador
             txtLinha5MegaSena.Clear();
             txtLinha6MegaSena.Clear();
 
+            txtGPote1MegaSenaMaisSorteados.Clear();
+            txtGPote1ResultMegaSena.Clear();
+
+            chkPreenchePote1MegaSena.Checked = false;
             chkPote2Auto.Checked = false;
             chkPote2Auto.Enabled = true;
             txtGPote1MegaSena.Enabled = true;
@@ -729,7 +773,7 @@ namespace Gerador
             txtQtdPote2MegaSena.Enabled = true;
             btnGerarMegaSena.Enabled = true;
             btnGerarPoteMegaSena.Enabled = true;
-
+            chkGeraLinhaMegaSena.Enabled = true;
             chkGeraLinhaMegaSena.Checked = false;
         }
 
@@ -760,16 +804,6 @@ namespace Gerador
             int vTxtQtdPote2MegaSena = 0;
             int vTxtQtdeJogosMegaSena = 0;
 
-            chkPote2Auto.Enabled = false;
-            txtQtdJogsMegaSena.Enabled = false;
-            txtQtdPote2MegaSena.Enabled = false;
-            txtLinha1MegaSena.Enabled = false;
-            txtLinha2MegaSena.Enabled = false;
-            txtLinha3MegaSena.Enabled = false;
-            txtLinha4MegaSena.Enabled = false;
-            txtLinha5MegaSena.Enabled = false;
-            txtLinha6MegaSena.Enabled = false;
-
             try
             {
                 if (nomeLoteriaImportada != "MegaSena")
@@ -782,10 +816,15 @@ namespace Gerador
                     throw new InvalidProgramException("Só é permitido digitar números.");
 
                 if (String.IsNullOrEmpty(txtQtdPote2MegaSena.Text))
-                    throw new InvalidProgramException("É obrigatório informar a quantidade de dezemas");
+                    throw new InvalidProgramException("É obrigatório informar a quantidade de dezemas.");
 
                 if (!int.TryParse(txtQtdPote2MegaSena.Text, out vTxtQtdPote2MegaSena))
                     throw new InvalidProgramException("Só é permitido digitar números.");
+
+                if (vTxtQtdPote2MegaSena < 6)
+                {
+                    throw new InvalidProgramException("O valor mimino é 6.");
+                }
 
                 Parametros parametros = new Parametros();
 
@@ -795,6 +834,27 @@ namespace Gerador
                         throw new InvalidProgramException("Todos os campos precisam ser preenchidos.");
                     else
                     {
+                        if (!int.TryParse(txtLinha1MegaSena.Text, out int vTxtLinha1MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if (!int.TryParse(txtLinha2MegaSena.Text, out int vTxtLinha2MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if (!int.TryParse(txtLinha3MegaSena.Text, out int vTxtLinha3MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if (!int.TryParse(txtLinha4MegaSena.Text, out int vTxtLinha4MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if (!int.TryParse(txtLinha5MegaSena.Text, out int vTxtLinha5MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if (!int.TryParse(txtLinha6MegaSena.Text, out int vTxtLinha6MegaSena))
+                            throw new InvalidProgramException("Só é permitido digitar números.");
+
+                        if ((vTxtLinha1MegaSena + vTxtLinha2MegaSena + vTxtLinha3MegaSena + vTxtLinha4MegaSena + vTxtLinha5MegaSena + vTxtLinha6MegaSena) != vTxtQtdPote2MegaSena)
+                            throw new InvalidProgramException("A soma das linhas tem que ser igual a quantidade de dezenas.");
+
                         parametros.addQuadLinha(txtLinha1MegaSena.Text);
                         parametros.addQuadLinha(txtLinha2MegaSena.Text);
                         parametros.addQuadLinha(txtLinha3MegaSena.Text);
@@ -803,6 +863,17 @@ namespace Gerador
                         parametros.addQuadLinha(txtLinha6MegaSena.Text);
                     }
                 }
+
+                chkPote2Auto.Enabled = false;
+                chkGeraLinhaMegaSena.Enabled = false;
+                txtQtdJogsMegaSena.Enabled = false;
+                txtQtdPote2MegaSena.Enabled = false;
+                txtLinha1MegaSena.Enabled = false;
+                txtLinha2MegaSena.Enabled = false;
+                txtLinha3MegaSena.Enabled = false;
+                txtLinha4MegaSena.Enabled = false;
+                txtLinha5MegaSena.Enabled = false;
+                txtLinha6MegaSena.Enabled = false;
 
                 var jogosGerados = GerarJogo.GerarJogosMegaSena(vTxtQtdeJogosMegaSena, vTxtQtdPote2MegaSena, parametros, resultImporta);
 
@@ -872,10 +943,55 @@ namespace Gerador
         private void chkPote2Auto_CheckedChanged(object sender, EventArgs e)
         {
             if (chkPote2Auto.Checked)
+            {
                 txtGPote2MegaSena.Enabled = false;
+                txtGPote2MegaSena.Clear();
+            }
+                
             else
+            {
                 txtGPote2MegaSena.Enabled = true;
+                txtGPote2MegaSena.Clear();
+            }
+        }
 
+        private void chkPreenchePote1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPreenchePote1MegaSena.Checked)
+            {
+                txtGPote1MegaSenaMaisSorteados.Clear();
+                txtGPote1MegaSenaMaisSorteados.Enabled = true;
+                txtGPote1MegaSenaMaisSorteados.Visible = true;
+
+                txtGPote1ResultMegaSena.Clear();
+                txtGPote1ResultMegaSena.Enabled = true;
+                txtGPote1ResultMegaSena.Visible = true;
+
+                label53.Visible = true;
+
+                label54.Visible = true;
+
+                txtGPote1MegaSena.Enabled = false;
+                txtGPote1MegaSena.Clear();
+            }
+            
+            else
+            {
+                txtGPote1MegaSenaMaisSorteados.Clear();
+                txtGPote1MegaSenaMaisSorteados.Enabled = false;
+                txtGPote1MegaSenaMaisSorteados.Visible = false;
+
+                txtGPote1ResultMegaSena.Clear();
+                txtGPote1ResultMegaSena.Enabled = false;
+                txtGPote1ResultMegaSena.Visible = false;
+
+                label53.Visible = false;
+
+                label54.Visible = false;
+
+                txtGPote1MegaSena.Enabled = true;
+                txtGPote1MegaSena.Clear();
+            }
         }
     }
 }

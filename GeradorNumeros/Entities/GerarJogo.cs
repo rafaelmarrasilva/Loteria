@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Loteria.Entities
@@ -135,6 +136,8 @@ namespace Loteria.Entities
 
         public static List<Jogo> GerarJogosPoteMegaSena(int numJogos, List<int> listaPote1, int qtdNumP1, List<int> listaPote2, int qtdNumP2, List<Resultado> listResultados)
         {
+            bool vSortDesc = false;
+
             if (listaPote2.Count() == 0)
             {
                 for (int i = 1; i <= 60; i++)
@@ -146,12 +149,22 @@ namespace Loteria.Entities
 
             List<Jogo> jogos = new List<Jogo>();
 
+            listaPote1.Sort();
+            listaPote2.Sort();
+
+            if (vSortDesc)
+            {
+                listaPote1 = listaPote1.OrderByDescending(i => i).ToList();
+                listaPote2 = listaPote1.OrderByDescending(i => i).ToList();
+            }
+
             for (int i = 1; numJogos > jogos.Count(); i++)
             {
                 List<int> l = new List<int>();
 
                 while (l.Count() < qtdNumP1)
                 {
+                    Thread.Sleep(3000);
                     int num = new Random().Next(listaPote1.Count());
                     if (!l.Contains(listaPote1[num]))
                         l.Add(listaPote1[num]);
@@ -168,6 +181,7 @@ namespace Loteria.Entities
                 {
                     l.Sort();
                     jogos.Add(new Jogo(i, DateTime.Now, l));
+                    vSortDesc = vSortDesc == true ? false : true;
                 }
             }
             return jogos;
