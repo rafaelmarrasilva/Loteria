@@ -932,6 +932,15 @@ namespace Gerador
                         rTxtNumMaisMegaSena.Text += "\r\n" + "Bola " + item.Key.ToString().PadLeft(2, '0') + " - " + item.Value + " - " + valPercent + "%";
                 }
 
+                var listaMapaResultadoMegaSena = Estatisticas.MapaResultadoMegaSena(resultImporta, vTxtQtdAnaMegaSena);
+
+                foreach (var item in listaMapaResultadoMegaSena)
+                {
+                    if (String.IsNullOrEmpty(rTxtMapaResultMS.Text))
+                        rTxtMapaResultMS.Text = item;
+                    else
+                        rTxtMapaResultMS.Text += "\r\n" + item;
+                }   
 
             }
             catch(Exception ex)

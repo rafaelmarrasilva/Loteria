@@ -281,6 +281,42 @@ namespace Loteria.Entities
             return vs;
         }
 
+        public static List<string> MapaResultadoMegaSena(List<Resultado> resultados, int qtdConcurso)
+        {
+            List<string> lista = new List<string>();
 
+            foreach (var resultado in resultados.Where(w => w.Concurso > resultados.Max(m => m.Concurso) - qtdConcurso).OrderByDescending(o => o.Concurso))
+            {
+                string montaLista = resultado.Concurso + " - ";
+
+                int seq1 = 0;
+                int seq2 = 0;
+                int seq3 = 0;
+                int seq4 = 0;
+                int seq5 = 0;
+                int seq6 = 0;
+
+                foreach (var num in resultado.Numeros.OrderBy(s => s))
+                {
+                    montaLista += num.ToString().PadLeft(2, '0') + " - ";
+
+                    if (num <= 10)
+                        seq1 += 1;
+                    else if (num > 10 && num <= 20)
+                        seq2 += 1;
+                    else if (num > 20 && num <= 30)
+                        seq3 += 1;
+                    else if (num > 30 && num <= 40)
+                        seq4 += 1;
+                    else if (num > 40 && num <= 50)
+                        seq5 += 1;
+                    else
+                        seq6 += 1;
+                }
+                montaLista = montaLista.Substring(0, montaLista.Length - 3) + " -  Seq.:  " + seq1 + "  " + seq2 + "  " + seq3 + "  " + seq4 + "  " + seq5 + "  " + seq6;
+                lista.Add(montaLista);
+            }
+            return lista;
+        }
     }
 }
